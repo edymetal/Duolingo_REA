@@ -18,6 +18,12 @@ Inglês para falantes de português foi examinado como exemplo, sem assumir que
 seja o curso desejado pelo usuário. As fontes atuais também podem divergir do
 conteúdo entregue pelo servidor ao APK 6.101.2 e à conta do usuário.
 
+**Atualização:** o usuário escolheu inglês para falantes de português. O
+aprofundamento e o estado de acesso ao corpus estão em
+`docs/INGLES-PARA-FALANTES-PORTUGUES.md`. Os dados do Dataverse foram
+catalogados pela API; o download exige um formulário de visitantes e ainda
+não foi realizado.
+
 ## Fontes mais úteis
 
 | Fonte | O que foi verificado | Utilidade e limite |

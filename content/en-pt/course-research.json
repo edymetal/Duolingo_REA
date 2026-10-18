@@ -1,0 +1,59 @@
+{
+  "course": {
+    "learning_language": "en",
+    "instruction_language": "pt-BR",
+    "selected_by_user": true,
+    "delivery_goal": "Independente dos servidores do Duolingo",
+    "implementation_status": "research_only"
+  },
+  "curriculum_reference": {
+    "source": "https://duolingodata.com/dat/enfpt1005v2.html",
+    "source_type": "unofficial_community_snapshot",
+    "snapshot_date": "2026-09-10",
+    "verified_against_user_account": false,
+    "sections": [
+      {"number": 1, "level": "Intro", "unit_count": 10},
+      {"number": 2, "level": "A1", "unit_count": 30},
+      {"number": 3, "level": "A1", "unit_count": 30},
+      {"number": 4, "level": "A2", "unit_count": 60},
+      {"number": 5, "level": "B1", "unit_count": 255},
+      {"number": 6, "level": "B1", "unit_count": 260},
+      {"number": 7, "level": "B2", "unit_count": 180},
+      {"number": 8, "level": "B2", "unit_count": 180}
+    ],
+    "total_units_in_reference": 1005,
+    "introductory_topic_paraphrases": [
+      "Bebidas: oferecer e aceitar",
+      "País de origem",
+      "Apresentações e família",
+      "Situações no aeroporto",
+      "Descrições com adjetivos",
+      "Pedidos de alimentação",
+      "Profissões no presente",
+      "Presente simples",
+      "Condições do tempo",
+      "Animais de estimação"
+    ],
+    "limitations": "Mapa de referência; não inclui exercícios, respostas, áudios nem comprova a estrutura entregue à conta do usuário."
+  },
+  "historical_official_corpus": {
+    "name": "STAPLE 2020",
+    "track": "en_pt",
+    "description": "Frases em inglês com variantes de tradução em português",
+    "source": "https://sharedtask.duolingo.com/",
+    "dataset": "https://doi.org/10.7910/DVN/38OJR6",
+    "training_prompts_reported": 4000,
+    "training_accepted_translations_reported": 526466,
+    "license_reported_by_catalog": "CC BY-NC 4.0",
+    "download_status": "blocked_by_required_guestbook_response",
+    "content_imported": false,
+    "limitations": "Amostra de 2020, não é o currículo completo atual. Traduções aceitas não equivalem a lições distintas."
+  },
+  "next_content_work": [
+    "Obter o corpus pelo fluxo oficial com formulário preenchido pelo responsável",
+    "Conferir integridade e formato antes de importar",
+    "Classificar frases por objetivo e dificuldade sem inventar origem curricular",
+    "Produzir e revisar conteúdo para lacunas, distinguindo-o do original",
+    "Preparar áudio local e testar correção e progresso offline"
+  ]
+}
