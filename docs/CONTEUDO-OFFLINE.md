@@ -41,3 +41,23 @@ definir um conjunto local de lições e implementar ou adaptar os serviços e o
 armazenamento de progresso. Desativar a internet, por si só, não estabelece
 essa independência. Continua em aberto se o destino desejado é totalmente
 offline no Android ou com um backend local no computador.
+
+## Verificação dos dados do celular
+
+Após autorização do usuário para procurar lições já realizadas, foi testado o
+acesso ADB convencional ao aplicativo instalado. `run-as com.duolingo ls -la`
+retornou `package not debuggable`, impedindo essa via de consulta aos dados
+privados. Não foi realizado root, alteração do aplicativo ou restauração de
+backup no celular.
+
+A listagem da pasta externa `Android/data/com.duolingo`, limitada a três níveis
+de arquivos, apresentou cache dos SDKs de anúncios. A pasta externa `files`
+estava vazia na listagem de primeiro nível; não foi identificado conteúdo de
+lições nessa consulta. A pasta `Android/media/com.duolingo` não existia.
+Esses resultados não estabelecem ausência de lições no armazenamento privado,
+pois essa área não pôde ser examinada. Nenhum dado privado foi extraído.
+
+Ter concluído uma lição não comprova que seu conteúdo integral permaneça no
+celular. O histórico de conclusão e os exercícios de uma sessão são informações
+distintas. A recuperação das lições anteriores não foi possível com o acesso
+disponível neste teste.
