@@ -5,20 +5,24 @@ Recursos e bytecode Smali estão em `decoded/`; a reconstrução assinada está 
 `dist/Duolingo-base-editable.apk`. Scripts, relatórios e arquivos de alteração
 são versionados. O APK original, a extração e as chaves permanecem locais.
 
-**Limite atual:** o arquivo é somente o APK base do Duolingo 6.101.2. O manifesto
-exige splits de arquitetura e densidade que não foram fornecidos. Isso ainda
-não é um clone independente completo nem o projeto-fonte Kotlin/Java original.
+Os splits de arquitetura ARM64 e densidade foram recuperados do celular com a
+mesma versão do aplicativo. O conjunto original foi instalado e aberto no
+emulador Android 16. A cópia editável continua sendo uma reconstrução do APK;
+não é um projeto Kotlin/Java original nem um clone independente do backend.
 
 Veja [como editar e reconstruir](docs/RECONSTRUCAO.md),
 [inventário do APK](reports/apk-inventory.json) e
 [verificação da reconstrução](reports/rebuild-verification.json).
-O [teste no emulador Android 16](reports/emulator-installation.json) confirmou
-`INSTALL_FAILED_MISSING_SPLIT`; o aplicativo não foi instalado nem iniciado.
+O [primeiro teste](reports/emulator-installation.json) falhou por falta de
+splits. Com os splits recuperados, tanto o original quanto a reconstrução
+abriram no emulador. Veja a [validação completa do conjunto](reports/complete-package-validation.json).
 
 ```powershell
 # A cópia local já está decodificada. Após editar arquivos:
 .\scripts\apk.ps1 Build
 .\scripts\apk.ps1 Verify
+# Preparar os splits recuperados com a mesma assinatura local:
+.\scripts\apk.ps1 PrepareSplits
 ```
 
 ## REA — instalação local

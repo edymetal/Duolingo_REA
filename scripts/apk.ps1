@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Setup', 'Decode', 'Build', 'Verify')]
+    [ValidateSet('Setup', 'Decode', 'Build', 'Verify', 'PrepareSplits')]
     [string]$Action = 'Verify',
     [string]$JavaHome,
     [string]$AndroidSdk,
@@ -83,6 +83,28 @@ $buildTools = Resolve-BuildTools
 $previousJavaHome = $env:JAVA_HOME
 try {
     $env:JAVA_HOME = $jdk
+    if ($Action -eq 'PrepareSplits') {
+        $keystore = Join-Path $toolDir 'development.keystore'
+        if (!(Test-Path -LiteralPath $keystore)) { throw 'Execute Build para criar a assinatura local primeiro.' }
+        Assert-Hash (Join-Path $repo 'APK/device/base.apk') $apkHash
+        $splitHashes = @{
+            'split_config.arm64_v8a.apk' = '200d98df70063c5b4a45441ff1e8954d8b395e4a55878d90775512c750daa12b'
+            'split_config.xxhdpi.apk' = 'c97078c142de2716e9d7073a83ce397c637517e971ce7ff8e3109707dce02e3e'
+        }
+        $splitOutput = Join-Path $dist 'splits'
+        New-Item -ItemType Directory -Force $splitOutput | Out-Null
+        foreach ($splitName in ($splitHashes.Keys | Sort-Object)) {
+            $splitInput = Join-Path $repo "APK/device/$splitName"
+            Assert-Hash $splitInput $splitHashes[$splitName]
+            $splitAligned = Join-Path $toolDir "aligned-$splitName"
+            $splitSigned = Join-Path $splitOutput $splitName
+            Invoke-Checked (Join-Path $buildTools 'zipalign.exe') @('-f', '-P', '16', '4', $splitInput, $splitAligned)
+            Invoke-Checked (Join-Path $buildTools 'apksigner.bat') @('sign', '--ks', $keystore, '--ks-key-alias', 'local-development', '--ks-pass', 'pass:android', '--key-pass', 'pass:android', '--out', $splitSigned, $splitAligned)
+            Invoke-Checked (Join-Path $buildTools 'apksigner.bat') @('verify', '--verbose', '--print-certs', $splitSigned)
+        }
+        Write-Host 'Splits preparados com a mesma chave local. Instale junto com o APK base reconstruído.'
+        return
+    }
     if ($Action -eq 'Verify') {
         $signed = Join-Path $dist 'Duolingo-base-editable.apk'
         if (!(Test-Path -LiteralPath $signed)) { throw 'Execute Build antes de Verify.' }
@@ -118,7 +140,7 @@ try {
     Invoke-Checked (Join-Path $buildTools 'apksigner.bat') @('verify', '--verbose', '--print-certs', $signed)
     $hash = (Get-FileHash -LiteralPath $signed -Algorithm SHA256).Hash.ToLowerInvariant()
     Write-Host "APK gerado: $signed`nSHA-256: $hash"
-    Write-Warning 'Este é somente o APK base. Ele declara exigir splits de ABI e densidade ausentes no material fornecido. Assinatura válida não comprova instalação ou execução.'
+    Write-Warning 'Este é somente o APK base. Ele exige splits de ABI e densidade; PrepareSplits prepara as cópias recuperadas do celular. Assinatura válida não comprova instalação ou execução.'
 } finally {
     $env:JAVA_HOME = $previousJavaHome
 }

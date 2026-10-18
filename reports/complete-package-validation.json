@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-18",
+  "package": "com.duolingo",
+  "version_name": "6.101.2",
+  "version_code": 2476,
+  "recovery": {
+    "source": "Pacotes de instalação do aplicativo no celular conectado por ADB autorizado",
+    "user_data_copied": false,
+    "base_matches_supplied_apk": true,
+    "original_files": {
+      "base.apk": "806c41968c9748f91afb77d6c08093c8ab6b0e2eefdbbb50c9b29c1bc7cd4baa",
+      "split_config.arm64_v8a.apk": "200d98df70063c5b4a45441ff1e8954d8b395e4a55878d90775512c750daa12b",
+      "split_config.xxhdpi.apk": "c97078c142de2716e9d7073a83ce397c637517e971ce7ff8e3109707dce02e3e"
+    }
+  },
+  "emulator": {
+    "avd": "Medium_Phone_API_36.1",
+    "android_release": "16",
+    "supported_abis": ["x86_64", "arm64-v8a"]
+  },
+  "original_package": {
+    "install_multiple": "Success",
+    "launch_status": "ok",
+    "launch_component": "com.duolingo/com.duolingo.splash.LaunchActivity",
+    "process_alive_after_launch": true,
+    "observed_screen": "Tela de boas-vindas com GET STARTED e I ALREADY HAVE AN ACCOUNT",
+    "screenshot": "reports/emulator-original.png"
+  },
+  "rebuilt_package": {
+    "base": "dist/Duolingo-base-editable.apk",
+    "base_sha256": "6d0c8bfa0ca8d7b5f80fd68931751437484570d5bfc7d4698d0d1048865826dc",
+    "splits": "Cópias alinhadas e reassinadas em dist/splits com a mesma chave local do base",
+    "split_signature_verification": "passed",
+    "install_multiple": "Success",
+    "launch_status": "ok",
+    "process_alive_after_launch": true,
+    "observed_screen": "Tela de boas-vindas com GET STARTED e I ALREADY HAVE AN ACCOUNT",
+    "screenshot": "reports/emulator-rebuilt.png"
+  },
+  "phone_application_modified": false,
+  "emulator_current_installation": "Conjunto reconstruído com assinatura local de desenvolvimento",
+  "limitations": [
+    "Somente instalação e abertura até a tela de boas-vindas foram testadas.",
+    "Não houve login, criação de conta, execução de lições ou validação completa dos serviços remotos.",
+    "A reconstrução mantém dependências do aplicativo original e não é uma reimplementação independente do backend."
+  ]
+}

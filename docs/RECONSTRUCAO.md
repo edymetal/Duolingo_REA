@@ -14,6 +14,14 @@ e densidade não estavam na pasta APK. Não há bibliotecas `lib/` no APK base.
 O Apktool também relatou referências de recursos não resolvidas na decodificação.
 Não se removeu a exigência de splits: removê-la não recuperaria os arquivos.
 
+**Atualização:** os dois splits foram recuperados posteriormente do celular
+conectado, que possui exatamente a versão 6.101.2 (2476). O hash do `base.apk`
+copiado coincide com o do APK fornecido. Os três APKs estão em `APK/device/`.
+O conjunto original foi instalado com sucesso no AVD Android 16 e abriu a tela
+de boas-vindas. O emulador x86_64 informa também suporte a `arm64-v8a`.
+O conjunto reconstruído, com base e splits assinados pela chave local, também
+foi instalado e abriu a mesma tela. Ele é a instalação atual do emulador.
+
 Uma instalação completa depende dos splits da **mesma versão**. APKs
 reassinados também precisam de uma assinatura consistente entre base e splits.
 Os serviços remotos, contas, cursos e verificações do fornecedor não são
@@ -31,6 +39,7 @@ do Android Studio e o SDK desta máquina; em outras máquinas informe
 .\scripts\apk.ps1 Decode
 .\scripts\apk.ps1 Build
 .\scripts\apk.ps1 Verify
+.\scripts\apk.ps1 PrepareSplits
 python .\scripts\inspect_apk.py
 python .\scripts\verify_rebuild.py
 ```
@@ -48,6 +57,26 @@ O resultado é `dist/Duolingo-base-editable.apk`. A assinatura de desenvolviment
 `android`. Ela não é a assinatura do fornecedor e não deve ser usada para
 distribuição. Preserve essa chave local para manter a mesma assinatura nas
 próximas reconstruções. O script não instala nem desinstala apps.
+
+`PrepareSplits` valida os hashes dos splits recuperados, alinha e assina cópias
+em `dist/splits/` com a mesma chave local do APK base. Os originais no celular
+e em `APK/device/` não são alterados.
+
+Para instalar o conjunto original no emulador:
+
+```powershell
+adb -s emulator-5554 install-multiple APK/device/base.apk APK/device/split_config.arm64_v8a.apk APK/device/split_config.xxhdpi.apk
+```
+
+Para instalar a reconstrução em um emulador sem instalação conflitante:
+
+```powershell
+adb -s emulator-5554 install-multiple dist/Duolingo-base-editable.apk dist/splits/split_config.arm64_v8a.apk dist/splits/split_config.xxhdpi.apk
+```
+
+As assinaturas do conjunto original e do reconstruído são diferentes. Durante
+o teste, a instalação original recém-criada no emulador, sem conta configurada,
+foi removida antes da instalação reconstruída. Nada foi desinstalado do celular.
 
 ## Onde alterar
 
@@ -102,7 +131,9 @@ que todas as funções estão disponíveis ou foram executadas.
 | Comparar classes e assets da referência | 91.712 descritores de classe e 610 assets preservados |
 | Instalar original no emulador Android 16 | Tentativa recusada: INSTALL_FAILED_MISSING_SPLIT |
 | Recuperar código-fonte Kotlin/Java original | Não recuperado |
-| Obter splits de arquitetura e densidade | Pendente |
+| Obter splits de arquitetura e densidade | Recuperados do celular; base idêntico ao fornecido |
+| Instalar e abrir o conjunto original completo | Concluído no emulador; tela de boas-vindas observada |
+| Instalar e abrir o conjunto reconstruído | Concluído no mesmo emulador; tela de boas-vindas observada |
 | Recriar backend e conteúdo remoto | Não disponível no APK |
 | Clone independente completo com paridade funcional | Não concluído |
 
@@ -112,6 +143,10 @@ paridade funcional.
 
 A tentativa real usou o AVD `Medium_Phone_API_36.1`, Android 16, ABI x86_64,
 serial `emulator-5554`. O sistema concluiu o boot, mas recusou o APK original
-com `INSTALL_FAILED_MISSING_SPLIT: Missing split for com.duolingo`. Nenhuma
-execução do Duolingo foi observada. Os detalhes estão em
+com `INSTALL_FAILED_MISSING_SPLIT: Missing split for com.duolingo`. Nesse
+primeiro teste não houve execução do Duolingo. Os detalhes estão em
 `reports/emulator-installation.json`.
+
+A validação posterior com os splits recuperados está em
+`reports/complete-package-validation.json`, com capturas de tela do original e
+da reconstrução. Não houve login nem teste de lições ou serviços da conta.
