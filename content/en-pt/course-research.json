@@ -12,14 +12,46 @@
     "snapshot_date": "2026-09-10",
     "verified_against_user_account": false,
     "sections": [
-      {"number": 1, "level": "Intro", "unit_count": 10},
-      {"number": 2, "level": "A1", "unit_count": 30},
-      {"number": 3, "level": "A1", "unit_count": 30},
-      {"number": 4, "level": "A2", "unit_count": 60},
-      {"number": 5, "level": "B1", "unit_count": 255},
-      {"number": 6, "level": "B1", "unit_count": 260},
-      {"number": 7, "level": "B2", "unit_count": 180},
-      {"number": 8, "level": "B2", "unit_count": 180}
+      {
+        "number": 1,
+        "level": "Intro",
+        "unit_count": 10
+      },
+      {
+        "number": 2,
+        "level": "A1",
+        "unit_count": 30
+      },
+      {
+        "number": 3,
+        "level": "A1",
+        "unit_count": 30
+      },
+      {
+        "number": 4,
+        "level": "A2",
+        "unit_count": 60
+      },
+      {
+        "number": 5,
+        "level": "B1",
+        "unit_count": 255
+      },
+      {
+        "number": 6,
+        "level": "B1",
+        "unit_count": 260
+      },
+      {
+        "number": 7,
+        "level": "B2",
+        "unit_count": 180
+      },
+      {
+        "number": 8,
+        "level": "B2",
+        "unit_count": 180
+      }
     ],
     "total_units_in_reference": 1005,
     "introductory_topic_paraphrases": [
@@ -45,8 +77,8 @@
     "training_prompts_reported": 4000,
     "training_accepted_translations_reported": 526466,
     "license_reported_by_catalog": "CC BY-NC 4.0",
-    "download_status": "blocked_by_required_guestbook_response",
-    "content_imported": false,
+    "download_status": "downloaded_via_authorized_browser_and_checksum_verified",
+    "content_imported": true,
     "limitations": "Amostra de 2020, não é o currículo completo atual. Traduções aceitas não equivalem a lições distintas."
   },
   "next_content_work": [

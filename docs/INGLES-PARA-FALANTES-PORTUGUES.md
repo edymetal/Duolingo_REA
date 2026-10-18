@@ -5,6 +5,13 @@ independente dos servidores do fornecedor. O recorte foi registrado de forma
 estruturada em `content/en-pt/course-research.json`. Isso é pesquisa e
 planejamento de conteúdo, ainda não um curso executável.
 
+**Atualização de acesso:** o usuário preencheu os dados e autorizou o envio e
+o aceite dos termos. O download pelo navegador foi concluído e o MD5 conferiu
+com o catálogo. O recorte inglês–português foi importado localmente: 5.000
+enunciados únicos e 654.625 variantes de tradução. Veja
+`content/en-pt/README.md` e `reports/staple-import.json`. Nenhum dado pessoal
+do formulário foi incluído no Git.
+
 ## Referência de currículo
 
 O [mapa comunitário consultado](https://duolingodata.com/dat/enfpt1005v2.html)
@@ -25,9 +32,9 @@ O [catálogo do Harvard Dataverse](https://doi.org/10.7910/DVN/38OJR6) pôde ser
 consultado pela API pública. Os metadados declaram a licença CC BY-NC 4.0 e
 listam um arquivo completo dos dados de pesquisa, com cerca de 17,7 MB. O
 servidor exige uma resposta ao formulário de visitantes para baixar o arquivo.
-A tentativa de download foi recusada por falta dessa resposta; não se
-preencheu o formulário nem se contornou essa exigência. Nenhuma frase desse
-arquivo foi importada. O termo "completo" no nome do arquivo diz respeito aos
+A primeira tentativa de download foi recusada por falta dessa resposta.
+Posteriormente o fluxo oficial foi concluído com autorização do usuário,
+conforme a atualização acima. O termo "completo" no nome do arquivo diz respeito aos
 conjuntos da pesquisa, não à totalidade dos cursos do aplicativo.
 
 ## Sequência concreta proposta

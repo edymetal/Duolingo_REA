@@ -1,0 +1,45 @@
+{
+  "dataset": "STAPLE 2020",
+  "dataset_url": "https://doi.org/10.7910/DVN/38OJR6",
+  "catalog_version": "6.0",
+  "citation": "Duolingo, 2020, Data for the 2020 Duolingo Shared Task on Simultaneous Translation And Paraphrase for Language Education (STAPLE), Harvard Dataverse, V6. doi:10.7910/DVN/38OJR6",
+  "license": "CC BY-NC 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-nc/4.0/",
+  "archive_md5": "e48db7b891a4a737eeb2512af6505c7c",
+  "archive_sha256": "17a830b95b0738353ae65d83ab4010f0be57e99e656443f63b34e63265d578fe",
+  "published_md5_matches": true,
+  "track": "en_pt",
+  "splits": {
+    "dev": {
+      "prompts": 500,
+      "accepted_translations": 60294,
+      "member": "staple-2020/en_pt/dev.en_pt.2020-02-20.gold.txt"
+    },
+    "test": {
+      "prompts": 500,
+      "accepted_translations": 67865,
+      "member": "staple-2020/en_pt/test.en_pt.2020-02-20.gold.txt"
+    },
+    "train": {
+      "prompts": 4000,
+      "accepted_translations": 526466,
+      "member": "staple-2020/en_pt/train.en_pt.2020-01-13.gold.txt"
+    }
+  },
+  "total_prompts": 5000,
+  "unique_prompt_texts": 5000,
+  "total_accepted_translations": 654625,
+  "output": "content\\en-pt\\generated\\staple.en-pt.jsonl",
+  "output_sha256": "b5322cfedb73241cbc37fe727de00c256cbf61b3b8a1b4682b0a9166139f3ebd",
+  "transformations": [
+    "Selecionados apenas os arquivos gold en_pt; baselines e outros idiomas excluídos",
+    "Preservados enunciados, variantes, pesos e divisão train/dev/test",
+    "Convertido formato de blocos para JSONL; pesos convertidos em números"
+  ],
+  "limitations": [
+    "Amostra histórica; não representa o curso atual completo",
+    "Sem associação validada a unidades ou níveis CEFR",
+    "Sem áudios e sem dados da conta do usuário",
+    "Não é um curso executável; conteúdo ainda precisa de curadoria pedagógica"
+  ]
+}

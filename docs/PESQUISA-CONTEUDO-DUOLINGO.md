@@ -24,6 +24,12 @@ aprofundamento e o estado de acesso ao corpus estão em
 catalogados pela API; o download exige um formulário de visitantes e ainda
 não foi realizado.
 
+**Atualização posterior:** o formulário foi preenchido e enviado com
+autorização do usuário. O download e a importação local de inglês–português
+foram concluídos. A seção de acesso e a entrega descritas no levantamento
+inicial abaixo registram a situação anterior; o estado atual está em
+`reports/staple-import.json` e `content/en-pt/README.md`.
+
 ## Fontes mais úteis
 
 | Fonte | O que foi verificado | Utilidade e limite |

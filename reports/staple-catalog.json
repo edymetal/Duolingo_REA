@@ -3,7 +3,7 @@
   "source": "https://dataverse.harvard.edu/api/datasets/:persistentId/?persistentId=doi:10.7910/DVN/38OJR6",
   "dataset_url": "https://doi.org/10.7910/DVN/38OJR6",
   "terms_declared": "CC BY-NC 4.0",
-  "download_status": "Requires guestbook response; not downloaded",
+  "download_status": "Completed through authorized browser guestbook flow; published MD5 verified; en_pt imported locally",
   "files": [
     {
       "filename": "staple-2020-dev-blind.tar.gz",
