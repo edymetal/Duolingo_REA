@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-18",
+  "avd": "Medium_Phone_API_36.1",
+  "serial": "emulator-5554",
+  "android_release": "16",
+  "abi": "x86_64",
+  "boot_completed": true,
+  "target": "APK/Duolingo.apk",
+  "target_sha256": "806c41968c9748f91afb77d6c08093c8ab6b0e2eefdbbb50c9b29c1bc7cd4baa",
+  "command": "adb -s emulator-5554 install APK/Duolingo.apk",
+  "exit_code": 1,
+  "result": "INSTALL_FAILED_MISSING_SPLIT",
+  "message": "Missing split for com.duolingo",
+  "package_installed": false,
+  "application_launched": false,
+  "required_inputs": "APKs split da mesma versão 6.101.2 (2476), incluindo arquitetura compatível e densidade; ou pacote APKS/XAPK completo.",
+  "limitations": "Teste do APK original. Não comprova comportamento de execução nem compatibilidade dos componentes nativos ausentes."
+}

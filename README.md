@@ -1,4 +1,27 @@
-# REA — instalação local
+# Duolingo — inspeção e base editável do APK
+
+O APK fornecido foi inventariado com REA e decodificado localmente com Apktool.
+Recursos e bytecode Smali estão em `decoded/`; a reconstrução assinada está em
+`dist/Duolingo-base-editable.apk`. Scripts, relatórios e arquivos de alteração
+são versionados. O APK original, a extração e as chaves permanecem locais.
+
+**Limite atual:** o arquivo é somente o APK base do Duolingo 6.101.2. O manifesto
+exige splits de arquitetura e densidade que não foram fornecidos. Isso ainda
+não é um clone independente completo nem o projeto-fonte Kotlin/Java original.
+
+Veja [como editar e reconstruir](docs/RECONSTRUCAO.md),
+[inventário do APK](reports/apk-inventory.json) e
+[verificação da reconstrução](reports/rebuild-verification.json).
+O [teste no emulador Android 16](reports/emulator-installation.json) confirmou
+`INSTALL_FAILED_MISSING_SPLIT`; o aplicativo não foi instalado nem iniciado.
+
+```powershell
+# A cópia local já está decodificada. Após editar arquivos:
+.\scripts\apk.ps1 Build
+.\scripts\apk.ps1 Verify
+```
+
+## REA — instalação local
 
 REA (Reverse Engineer Anything) instalado em **18/10/2026** a partir de
 [morluto/rea](https://github.com/morluto/rea).

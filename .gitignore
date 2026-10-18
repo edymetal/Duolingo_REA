@@ -1,0 +1,8 @@
+/APK/
+/.tools/
+/decoded/
+/dist/
+/local.properties
+*.keystore
+*.jks
+__pycache__/

@@ -1,0 +1,63 @@
+{
+  "scope": "Comparação estática da reconstrução de referência, antes de alterações intencionais.",
+  "original_sha256": "806c41968c9748f91afb77d6c08093c8ab6b0e2eefdbbb50c9b29c1bc7cd4baa",
+  "rebuilt_sha256": "6d0c8bfa0ca8d7b5f80fd68931751437484570d5bfc7d4698d0d1048865826dc",
+  "dex": {
+    "classes.dex": {
+      "original": 10097,
+      "rebuilt": 10097,
+      "same_descriptors": true
+    },
+    "classes10.dex": {
+      "original": 4054,
+      "rebuilt": 4054,
+      "same_descriptors": true
+    },
+    "classes2.dex": {
+      "original": 2,
+      "rebuilt": 2,
+      "same_descriptors": true
+    },
+    "classes3.dex": {
+      "original": 10232,
+      "rebuilt": 10232,
+      "same_descriptors": true
+    },
+    "classes4.dex": {
+      "original": 7912,
+      "rebuilt": 7912,
+      "same_descriptors": true
+    },
+    "classes5.dex": {
+      "original": 10585,
+      "rebuilt": 10585,
+      "same_descriptors": true
+    },
+    "classes6.dex": {
+      "original": 14122,
+      "rebuilt": 14122,
+      "same_descriptors": true
+    },
+    "classes7.dex": {
+      "original": 13147,
+      "rebuilt": 13147,
+      "same_descriptors": true
+    },
+    "classes8.dex": {
+      "original": 10695,
+      "rebuilt": 10695,
+      "same_descriptors": true
+    },
+    "classes9.dex": {
+      "original": 10866,
+      "rebuilt": 10866,
+      "same_descriptors": true
+    }
+  },
+  "assets_checked": 610,
+  "differences": [],
+  "passed": true,
+  "limitations": [
+    "Não compara semântica de instruções, recursos recompilados, instalação ou execução. Os splits continuam ausentes."
+  ]
+}

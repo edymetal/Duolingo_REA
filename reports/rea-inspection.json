@@ -1,0 +1,116 @@
+{
+  "evidence_id": "ev_0a2b7720e741cedd158b729206bda1c849ae78bb0bbd99259ce7801c0ea70895",
+  "subject": {
+    "name": "Duolingo.apk",
+    "digest": {
+      "sha256": "806c41968c9748f91afb77d6c08093c8ab6b0e2eefdbbb50c9b29c1bc7cd4baa"
+    },
+    "local_path": "D:\\Projetos\\Web\\Desenvolvimento\\Pessoal\\Duolingo_REA\\APK\\Duolingo.apk",
+    "format": "apk",
+    "architecture": null
+  },
+  "provider": {
+    "id": "rea-analysis-view",
+    "name": "REA analysis view projection",
+    "version": "1"
+  },
+  "analysis_profile": null,
+  "predicate_type": "rea.analysis-view",
+  "operation": "inspect_analysis_view",
+  "parameters": {
+    "parent_evidence_id": "ev_43202f48bdb950d28f76438273cd5b41d94185058f4202e17848c948a339e8af",
+    "view": {
+      "kind": "summary"
+    }
+  },
+  "raw_result": null,
+  "normalized_result": {
+    "kind": "summary",
+    "view": {
+      "kind": "summary"
+    },
+    "parent_evidence_id": "ev_43202f48bdb950d28f76438273cd5b41d94185058f4202e17848c948a339e8af",
+    "parent_operation": "inspect_artifact",
+    "parent_digest": "43202f48bdb950d28f76438273cd5b41d94185058f4202e17848c948a339e8af",
+    "view_digest": "1fc80dfc92bdb3a2822018d57e06948b755b5d2abb878c8d8aaba3f18599f5c2",
+    "artifact": {
+      "path": "D:\\Projetos\\Web\\Desenvolvimento\\Pessoal\\Duolingo_REA\\APK\\Duolingo.apk",
+      "sha256": "806c41968c9748f91afb77d6c08093c8ab6b0e2eefdbbb50c9b29c1bc7cd4baa"
+    },
+    "coverage": {
+      "status": "complete-within-view",
+      "examined": 52840,
+      "total": 52840,
+      "next_offset": null,
+      "exhausted": true
+    },
+    "limitations": [
+      "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.",
+      "ZIP inventory lists central-directory entries only. Non-entry bytes, including an APK Signing Block before the central directory or a ZIP comment after it, are not occurrences."
+    ],
+    "unknowns": [
+      "Inventory does not establish application runtime behavior or complete format-specific analysis."
+    ],
+    "summary": {
+      "manifest": {
+        "manifest_id": "agm_18976532ec0e64d920b5272451d0ef1e9a0b34d02f94bfa3f8790cdf7f2d6566",
+        "root_artifact_id": "art_bf7a8cf220af0cc83bc0b11fd3dd5c537c036207a4d2ac52c95a034c70849fb4",
+        "root_sha256": "806c41968c9748f91afb77d6c08093c8ab6b0e2eefdbbb50c9b29c1bc7cd4baa",
+        "root_format": "apk",
+        "graph_sha256": "3f184ff3b253fd9a8748ad8e3dd60cdb93600d391acd6dade81d956ffe1f8ac4",
+        "node_count": 16763,
+        "occurrence_count": 18039,
+        "edge_count": 18038
+      },
+      "available_counts": {
+        "nodes": 16763,
+        "occurrences": 18039,
+        "edges": 18038,
+        "integrity_contradictions": 0
+      },
+      "observed_entry_kind_counts": {
+        "file": 18039,
+        "directory": 0,
+        "symlink": 0,
+        "slice": 0
+      },
+      "source_complete": true,
+      "inventory_evidence_ids": [
+        "ev_233038ae4578d1f25dd95f6ba0fd7820fa94063494c97bd5a1e0670f3b899171"
+      ],
+      "inspection": {
+        "coverage": {
+          "status": "complete-within-substeps",
+          "substeps_completed": 1,
+          "observations_retained": 1,
+          "observations_omitted": 0,
+          "hypotheses_retained": 0,
+          "hypotheses_omitted": 0,
+          "unexplored_branches_retained": 0,
+          "unexplored_branches_omitted": 0,
+          "next_probes_retained": 0,
+          "next_probes_omitted": 0
+        },
+        "unexplored_branches": []
+      },
+      "limitation_count": 2
+    }
+  },
+  "confidence": "derived",
+  "authority": "shipped-artifact",
+  "environment": null,
+  "limitations": [
+    "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics.",
+    "ZIP inventory lists central-directory entries only. Non-entry bytes, including an APK Signing Block before the central directory or a ZIP comment after it, are not occurrences."
+  ],
+  "relationship_coverage": null,
+  "locations": [
+    {
+      "kind": "artifact-path",
+      "path": "D:\\Projetos\\Web\\Desenvolvimento\\Pessoal\\Duolingo_REA\\APK\\Duolingo.apk"
+    }
+  ],
+  "evidence_links": [
+    "ev_43202f48bdb950d28f76438273cd5b41d94185058f4202e17848c948a339e8af"
+  ]
+}
