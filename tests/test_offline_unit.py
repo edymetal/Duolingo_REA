@@ -41,9 +41,9 @@ class OfflineUnitTests(unittest.TestCase):
         self.assertNotEqual(manifest.get('package'), 'com.duolingo')
         self.assertEqual(manifest.findall('uses-permission'), [])
 
-    @unittest.skipUnless((ROOT / 'dist/Lingo-Local.apk').exists(), 'Compile o APK primeiro')
+    @unittest.skipUnless((ROOT / 'dist/Lingo-Edy.apk').exists(), 'Compile o APK primeiro')
     def test_packaged_audio_is_uncompressed_and_complete(self):
-        with zipfile.ZipFile(ROOT / 'dist/Lingo-Local.apk') as archive:
+        with zipfile.ZipFile(ROOT / 'dist/Lingo-Edy.apk') as archive:
             packaged = json.loads(archive.read('assets/unit.json'))
             self.assertEqual(packaged, self.unit)
             for exercise in self.exercises:

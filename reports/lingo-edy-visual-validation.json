@@ -1,0 +1,16 @@
+{
+  "apk_sha256": "b7ba9c2608a06eb074ee5bc09d88ac37ed61494598a7c694618fa491311db3f2",
+  "scope": "Navegação reutilizada da compilação anterior; após ajuste dos indicadores de conclusão, repete exercício, áudio e contadores ao reiniciar no APK final.",
+  "passed": true,
+  "navigation_validated_apk_sha256": "34d69c88ac71ff9ca2af4288abfa46e8e382ceb899afea07b9f695a87ae8163d",
+  "offline": true,
+  "audio_observed": true,
+  "audio_service_evidence": [
+    "  AudioPlaybackConfiguration piid:335 deviceIds:[] type:android.media.MediaPlayer u/pid:10224/12932 state:started attr:AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_UNKNOWN flags=0x800(FLAG_MUTE_HAPTIC)  tags= bundle=null sessionId:345 mutedState:none  FormatInfo{isSpatialized=false, channelMask=0x1, sampleRate=22050}",
+    "10-18 21:16:51:394 new player piid:335 uid/pid:10224/12932 package:dev.edney.lingolocal type:android.media.MediaPlayer attr:AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_UNKNOWN flags=0x800(FLAG_MUTE_HAPTIC)  tags= bundle=null session:345",
+    "10-18 21:16:51:461 player piid:335 event:started",
+    "10-18 21:16:51:587 port updated portId:[28] mapped to player piid:335",
+    "10-18 21:16:51:596 player piid:335 format update:FormatInfo{isSpatialized=false, channelMask=0x1, sampleRate=22050}"
+  ],
+  "counters_preserved": true
+}

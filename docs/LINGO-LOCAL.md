@@ -1,9 +1,32 @@
 # Primeira unidade com áudio, sem servidor
 
-O **Lingo Local** é uma implementação Android independente para começar a
+O **Lingo Edy** é uma implementação Android independente para começar a
 transformar o material importado em lições utilizáveis offline. O pacote é
 `dev.edney.lingolocal`; ele pode coexistir com o Duolingo e com a reconstrução
 anterior. Nenhum arquivo do aplicativo no celular foi alterado nesta etapa.
+
+## Visual Lingo Edy
+
+A tela inicial agora segue a referência fornecida: fundo escuro, faixa azul,
+trilha curva com botões em relevo, personagem com fogueira e navegação inferior.
+O nome exibido no Android é **Lingo Edy**. O identificador e a assinatura foram
+mantidos para permitir atualizar a instalação sem apagar o progresso.
+
+Foram reaproveitados 13 desenhos vetoriais e duas fontes do APK local, incluindo
+a personagem, bandeira, baú e ícones. `scripts/prepare_visual_assets.py` resolve
+as cores dos vetores e prepara os arquivos antes da compilação. Ele exige a
+pasta `decoded/res/` criada pela decodificação anterior. Os recursos extraídos
+ficam em `android-app/build/`, fora do Git; seus caminhos e hashes estão em
+`reports/visual-assets.json`. Esses recursos pertencem aos respectivos titulares;
+a licença do conjunto STAPLE não é uma licença para as ilustrações e fontes.
+
+Os contadores mostram somente o progresso local. Os três primeiros botões abrem
+as três lições; os três seguintes permitem repeti-las para praticar. O menu
+inferior abre início, guia, progresso, revisão de erros, prática e informações.
+A personagem estática foi extraída como vetor; suas animações ainda não foram
+integradas. Recursos que só são baixados dos servidores podem faltar no APK.
+
+![Tela inicial Lingo Edy](../reports/lingo-edy-home.png)
 
 ## Conteúdo desta entrega
 
@@ -45,7 +68,7 @@ livre, histórias, conversação e demais unidades ainda não foram implementado
 
 ## Abrir e compilar
 
-APK local: `dist/Lingo-Local.apk`, Android 8.0 ou superior. É uma assinatura de
+APK local: `dist/Lingo-Edy.apk`, Android 8.0 ou superior. É uma assinatura de
 desenvolvimento, gerada localmente. O script usa o JDK do Android Studio e o
 SDK já instalados e aceita caminhos alternativos por parâmetros.
 
@@ -71,6 +94,7 @@ usado para gerar os áudios.
 ```powershell
 python -m unittest discover -s tests -v
 python scripts/test_offline_app.py
+python scripts/test_visual_refresh.py
 ```
 
 Os testes de dados conferem a correspondência com o corpus, os WAVs, a ausência
@@ -91,6 +115,18 @@ limpo do aplicativo Duolingo nem de um celular.
 O percurso completo foi executado antes de um ajuste nas mensagens de
 singular/plural. Áudio e persistência foram revalidados após instalar essa
 compilação final; o relatório registra os hashes das duas compilações.
+
+Após a atualização visual, os nove testes de dados e empacotamento foram
+executados novamente. O teste específico da interface valida em modo avião
+a abertura das três lições, guia, progresso, revisão e informações, a correção
+de um exercício, reprodução de áudio e preservação dos contadores ao reiniciar.
+O resultado e o hash desta compilação estão em
+`reports/lingo-edy-visual-validation.json`. Esse teste não repete o percurso
+completo dos 18 exercícios descrito no relatório anterior.
+Após corrigir os indicadores para respeitar quais lições foram concluídas,
+foi usado `python scripts/test_visual_refresh.py --final-checks`: reutiliza a
+navegação já aprovada e repete exercício, áudio e reinício na compilação final.
+O relatório distingue os hashes das duas compilações visuais.
 
 O teste de áudio consulta o serviço de reprodução do Android. Isso confirma o
 uso do player; a qualidade de pronúncia ainda pode ser revisada por uma pessoa.

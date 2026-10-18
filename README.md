@@ -1,12 +1,14 @@
 # Duolingo — inspeção e base editável do APK
 
-## Versão independente offline: Lingo Local
+## Versão independente offline: Lingo Edy
 
 Foi iniciada uma implementação Android própria para funcionar sem os
 servidores do Duolingo: **uma unidade, três lições e 18 exercícios com áudio
-local**, correção e progresso salvo no aparelho. APK em `dist/Lingo-Local.apk`.
+local**, correção e progresso salvo no aparelho. APK em `dist/Lingo-Edy.apk`.
 Veja [como abrir, editar e compilar](docs/LINGO-LOCAL.md).
 Essa primeira unidade não representa o curso completo do Duolingo.
+O visual foi aproximado da referência com tema escuro, trilha azul e recursos
+gráficos extraídos do APK local. [Ver tela atual](reports/lingo-edy-home.png).
 
 ## Reconstrução do aplicativo original
 

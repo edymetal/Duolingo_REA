@@ -1,0 +1,65 @@
+{
+  "origin": "APK fornecido pelo usuário, recursos decodificados locais",
+  "resources": [
+    {
+      "source": "decoded/res/drawable/bea_sitting.xml",
+      "sha256": "292c14c64c418dab4dec61c179cc4439b955077719ee4952522e49793e5734b4"
+    },
+    {
+      "source": "decoded/res/drawable/course_flag_en.xml",
+      "sha256": "37195acc1ec7c646fc68661d0442242eb484e91670d0b4bf882cfced291124ee"
+    },
+    {
+      "source": "decoded/res/drawable/home_active.xml",
+      "sha256": "2d547739b6c580044fff46ccaf04be6ad9cda5848ccc01fc0ed6dd3f411af6e2"
+    },
+    {
+      "source": "decoded/res/drawable/icon_practice.xml",
+      "sha256": "280189b3044ed48ff7dc3d84aa1d6bce3423fcd6362863e9aa394282fb8ea7ea"
+    },
+    {
+      "source": "decoded/res/drawable/more_active.xml",
+      "sha256": "0fb4a39ce00b95c8c0bf99c3fe44482301e86985ce50a713c2d25041e5149e34"
+    },
+    {
+      "source": "decoded/res/drawable/leagues_active.xml",
+      "sha256": "d56baefab6bc805660d66cff16e88df6ce33e92236d2608545f53d5898c6b872"
+    },
+    {
+      "source": "decoded/res/drawable/heart_active.xml",
+      "sha256": "c3cd373f66b0dad123542b37f045b9e2e44b30d7307b3297679d986fc7f09d35"
+    },
+    {
+      "source": "decoded/res/drawable/chest_closed.xml",
+      "sha256": "3f545f2bd98f8786c68a4c3b63c68e38f657369300d546014c0ae965ab75965d"
+    },
+    {
+      "source": "decoded/res/drawable/guidebook_white.xml",
+      "sha256": "faa1c9f98064e2be375cfd5dddc7083e82d949f01d97caf3d3399a7bd591729b"
+    },
+    {
+      "source": "decoded/res/drawable/level_star.xml",
+      "sha256": "b80e199a22ca2576b2b01f51988695e8adfbc688a026cf93cd5183d1712152de"
+    },
+    {
+      "source": "decoded/res/drawable/gem.xml",
+      "sha256": "3910a2349031100207c261febdb788e00058fb3716e2d5f50c0d2b1abebeb36d"
+    },
+    {
+      "source": "decoded/res/drawable/friends_streak_flame.xml",
+      "sha256": "49632865c18bb40ef0d26df3496c53a0865c877a94da23c2696cadc532c0ac59"
+    },
+    {
+      "source": "decoded/res/drawable/contacts_book.xml",
+      "sha256": "cbb94fe3ec00366ec85f154877261d0f43c74bb0e68169d08b3afd0d7d8729b2"
+    },
+    {
+      "source": "decoded/res/font/din_next_for_duolingo.otf",
+      "sha256": "e3a78e331410bf8c40325dd8215fcd3f890e78f0ec955a923098bf032f510a1e"
+    },
+    {
+      "source": "decoded/res/font/din_next_for_duolingo_bold.otf",
+      "sha256": "af3816958aee96c291356afc4419750ec52c3233c752b36ab2d2bdfbe36a75d9"
+    }
+  ]
+}

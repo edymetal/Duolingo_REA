@@ -28,7 +28,7 @@ def main(adb, serial, resume_final_checks=False):
         values = [int(x) for x in re.findall(r'\d+', node.get('bounds'))]
         run('shell', 'input', 'tap', str((values[0]+values[2])//2), str((values[1]+values[3])//2))
     def find(tree, value, exact=False):
-        candidates = [n for n in tree.iter('node') if n.get('enabled') == 'true' and (n.get('text', '').casefold() == value.casefold() if exact else value.casefold() in n.get('text', '').casefold())]
+        candidates = [n for n in tree.iter('node') if n.get('enabled') == 'true' and any(field.casefold() == value.casefold() if exact else value.casefold() in field.casefold() for field in (n.get('text', ''), n.get('content-desc', '')))]
         if not candidates:
             raise AssertionError('Elemento esperado ausente: ' + value + '\n' + text(tree))
         return candidates[0]
@@ -49,7 +49,7 @@ def main(adb, serial, resume_final_checks=False):
                 report[key] = previous_report[key]
         report['full_flow_reused'] = True
     else:
-        report['full_flow_apk_sha256'] = hashlib.sha256((ROOT / 'dist/Lingo-Local.apk').read_bytes()).hexdigest()
+        report['full_flow_apk_sha256'] = hashlib.sha256((ROOT / 'dist/Lingo-Edy.apk').read_bytes()).hexdigest()
     try:
         run('shell', 'cmd', 'connectivity', 'airplane-mode', 'enable')
         assert run('shell', 'settings', 'get', 'global', 'airplane_mode_on').strip() == b'1'
@@ -58,7 +58,7 @@ def main(adb, serial, resume_final_checks=False):
         report['wifi_disabled'] = True
         run('shell', 'am', 'force-stop', PACKAGE)
         run('shell', 'am', 'start', '-W', '-n', PACKAGE+'/.MainActivity')
-        home = state(); assert 'Lingo Local' in text(home)
+        home = state(); assert 'Lingo Edy' in text(home)
         screenshot('offline-app-home.png')
         for lesson_index, lesson in enumerate([] if resume_final_checks else unit['lessons']):
             tap(lesson['title']); tap('Começar', exact=True)
@@ -95,7 +95,9 @@ def main(adb, serial, resume_final_checks=False):
             tap(cap(first['portuguese']), exact=True); tap('Verificar', exact=True); tap('Continuar', exact=True)
             assert 'Revisão concluída' in text(state())
             tap('Voltar à unidade', exact=True)
-        assert 'Revisar meus erros  ·  0' in text(state())
+        tap('Revisar meus erros', exact=True)
+        assert 'Revisar meus erros · 0' in text(state())
+        tap('Entendi', exact=True)
         report['mistakes_reviewed'] = True
         # Reprodução de WAV empacotado, com o mesmo modo avião do teste.
         tap(unit['lessons'][0]['title']); tap('Começar', exact=True)
@@ -117,10 +119,12 @@ def main(adb, serial, resume_final_checks=False):
             raise AssertionError('Reprodução não confirmada pelo serviço de áudio')
         run('shell', 'am', 'force-stop', PACKAGE)
         run('shell', 'am', 'start', '-W', '-n', PACKAGE+'/.MainActivity')
+        tap('Meu progresso', exact=True)
         home = text(state()); assert '3 de 3 lições' in home and '45 XP' in home and 'melhor: 5/6' in home
+        tap('Voltar', exact=True)
         report['progress_persisted_after_restart'] = True
         screenshot('offline-app-progress.png')
-        report['final_apk_sha256'] = hashlib.sha256((ROOT / 'dist/Lingo-Local.apk').read_bytes()).hexdigest()
+        report['final_apk_sha256'] = hashlib.sha256((ROOT / 'dist/Lingo-Edy.apk').read_bytes()).hexdigest()
         report['passed'] = True
     except Exception as error:
         report['error'] = str(error)

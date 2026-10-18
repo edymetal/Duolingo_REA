@@ -20,8 +20,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class MainActivity extends Activity {
-    private final int INK = Color.rgb(31, 51, 43), GREEN = Color.rgb(37, 107, 79);
-    private final int MUTED = Color.rgb(100, 115, 105), BG = Color.rgb(250, 250, 246);
+    private final int INK = Color.rgb(241, 247, 250), GREEN = Color.rgb(88, 204, 2);
+    private final int MUTED = Color.rgb(147, 167, 176), BG = Color.rgb(19, 31, 36);
+    private Typeface regular, bold;
     private JSONObject unit;
     private JSONArray lessons;
     private SharedPreferences prefs;
@@ -39,6 +40,8 @@ public class MainActivity extends Activity {
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
+        regular=Typeface.createFromAsset(getAssets(),"fonts/regular.otf");
+        bold=Typeface.createFromAsset(getAssets(),"fonts/bold.otf");
         prefs = getSharedPreferences("learning", MODE_PRIVATE);
         try {
             unit = new JSONObject(readAsset("unit.json"));
@@ -78,13 +81,13 @@ public class MainActivity extends Activity {
     }
     private TextView label(String text, int size, int color, boolean bold) {
         TextView view = new TextView(this); view.setText(text); view.setTextSize(size); view.setTextColor(color);
-        if (bold) view.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
+        view.setTypeface(bold ? this.bold : regular);
         view.setPadding(0, dp(5), 0, dp(5)); return view;
     }
     private Button button(String text, boolean primary) {
         Button view = new Button(this); view.setText(text); view.setAllCaps(false); view.setTextSize(16);
-        view.setTypeface(Typeface.DEFAULT, Typeface.BOLD); view.setTextColor(primary ? Color.WHITE : INK);
-        view.setBackground(shape(primary ? GREEN : Color.WHITE, primary ? 0 : Color.rgb(217, 225, 218)));
+        view.setTypeface(bold); view.setTextColor(primary ? Color.rgb(25,57,0) : INK);
+        view.setBackground(shape(primary ? GREEN : BG, primary ? 0 : Color.rgb(55,70,79)));
         view.setMinHeight(dp(54)); view.setPadding(dp(16), dp(12), dp(16), dp(12));
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2); lp.setMargins(0, dp(6), 0, dp(6));
         view.setLayoutParams(lp); return view;
@@ -106,31 +109,30 @@ public class MainActivity extends Activity {
     }
     private void showHome() {
         lessonIndex = -1; questions.clear(); base();
-        LinearLayout header = new LinearLayout(this); header.setGravity(Gravity.CENTER_VERTICAL);
-        TextView brand = label("Lingo Local", 26, INK, true); header.addView(brand, new LinearLayout.LayoutParams(0, -2, 1));
-        TextView pill = label("● Offline", 13, GREEN, true); header.addView(pill); root.addView(header);
-        root.addView(label("INGLÊS  /  PORTUGUÊS", 11, MUTED, true));
-        content = scrollContent();
-        int completed = 0; for (int i=0; i<lessons.length(); i++) if (prefs.getBoolean("done-"+i, false)) completed++;
-        int streak=prefs.getInt("streak",0);
-        TextView stats = label(completed + " de 3 lições   ·   " + prefs.getInt("xp", 0) + " XP   ·   " + streak + (streak==1?" dia":" dias"), 14, GREEN, true);
-        stats.setPadding(0, dp(18), 0, dp(14)); content.addView(stats);
-        LinearLayout hero = column(); hero.setPadding(dp(20), dp(16), dp(20), dp(18)); hero.setBackground(shape(Color.rgb(229, 240, 223), 0));
-        hero.addView(label("UNIDADE 01", 12, GREEN, true)); hero.addView(label(unit.optString("title"), 30, INK, true));
-        hero.addView(label(unit.optString("subtitle"), 16, INK, false)); content.addView(hero);
-        content.addView(label("Um pequeno passo, todos os dias.", 15, MUTED, false));
-        for (int i=0; i<lessons.length(); i++) {
-            final int index = i; JSONObject lesson = lessons.optJSONObject(i);
-            boolean done = prefs.getBoolean("done-"+i, false);
-            String score = done ? "  ·  melhor: " + prefs.getInt("best-"+i,0) + "/6" : "  ·  6 exercícios";
-            Button card = button((done ? "✓  " : (i+1)+"  ") + lesson.optString("title") + "\n" + lesson.optString("description") + "\n" + score.trim(), false);
-            card.setGravity(Gravity.START | Gravity.CENTER_VERTICAL); card.setTextSize(15); card.setMinHeight(dp(104));
-            card.setOnClickListener(v -> showLessonIntro(index)); content.addView(card);
-        }
-        Button revision = button("Revisar meus erros  ·  " + mistakes().size(), true);
-        revision.setEnabled(!mistakes().isEmpty()); revision.setAlpha(mistakes().isEmpty() ? .45f : 1f);
-        revision.setOnClickListener(v -> startLesson(0,true)); content.addView(revision);
-        Button about = button("Sobre esta unidade", false); about.setOnClickListener(v -> showAbout()); content.addView(about);
+        root.setPadding(0,0,0,0);
+        boolean[] finished=new boolean[lessons.length()]; for(int i=0;i<finished.length;i++) finished[i]=prefs.getBoolean("done-"+i,false);
+        String[] titles=new String[lessons.length()]; for(int i=0;i<titles.length;i++) titles[i]=lessons.optJSONObject(i).optString("title");
+        root.addView(new LearningPath(this,regular,bold,unit.optString("title"),titles,finished,prefs.getInt("xp",0),prefs.getInt("streak",0),new LearningPath.Actions() {
+            public void lesson(int index) { showLessonIntro(index); }
+            public void guide() {
+                new AlertDialog.Builder(MainActivity.this).setTitle("Guia · Bebidas e pedidos")
+                    .setMessage(unit.optString("subtitle")+"\n\n1. Faça seu pedido\n2. Ofereça uma bebida\n3. Gostos e hábitos\n\nCada lição tem tradução, escuta e montagem de frases. As três estrelas finais permitem repetir as lições. Todos os áudios são locais.")
+                    .setPositiveButton("Entendi",null).show();
+            }
+            public void progress() {
+                StringBuilder message=new StringBuilder(); int done=0;
+                for(int i=0;i<lessons.length();i++) {
+                    boolean finished=prefs.getBoolean("done-"+i,false); if(finished)done++;
+                    message.append(lessons.optJSONObject(i).optString("title")).append(finished?" · melhor: "+prefs.getInt("best-"+i,0)+"/6":" · não concluída").append("\n\n");
+                }
+                new AlertDialog.Builder(MainActivity.this).setTitle(done+" de 3 lições · "+prefs.getInt("xp",0)+" XP").setMessage(message.toString()).setPositiveButton("Voltar",null).show();
+            }
+            public void review() {
+                if(mistakes().isEmpty()) new AlertDialog.Builder(MainActivity.this).setTitle("Revisar meus erros · 0").setMessage("Nenhum erro pendente. Continue praticando as lições da trilha.").setPositiveButton("Entendi",null).show();
+                else startLesson(0,true);
+            }
+            public void about() { showAbout(); }
+        }),new LinearLayout.LayoutParams(-1,-1));
     }
     private void showAbout() {
         new AlertDialog.Builder(this).setTitle("Conteúdo que funciona sem rede")
@@ -173,7 +175,7 @@ public class MainActivity extends Activity {
         content.addView(label(listening ? "Ouça e escolha" : order ? "Monte a frase em inglês" : "Escolha a tradução",25,INK,true));
         content.addView(label(listening ? "Use o áudio para entender a frase." : order ? "Toque nas palavras na ordem certa." : "Leia em inglês e encontre o sentido.",15,MUTED,false));
         TextView prompt=label(listening ? "♪" : cap(question.optString(order ? "portuguese" : "english")), listening ? 58 : 24,INK,true);
-        prompt.setPadding(dp(20),dp(22),dp(20),dp(22)); prompt.setBackground(shape(Color.WHITE,Color.rgb(220,228,220))); content.addView(prompt);
+        prompt.setPadding(dp(20),dp(22),dp(20),dp(22)); prompt.setBackground(shape(BG,Color.rgb(55,70,79))); content.addView(prompt);
         Button audio=button(order ? "Ouvir uma dica" : "▶  Ouvir em inglês",false); audio.setOnClickListener(v -> playAudio(question.optString("audio"))); content.addView(audio);
         response=column(); content.addView(response);
         if (order) buildWordOrder(question); else buildChoices(question);
@@ -197,8 +199,8 @@ public class MainActivity extends Activity {
             option.setOnClickListener(v -> {
                 if (checked) return;
                 chosen=value;
-                for (int i=0;i<response.getChildCount();i++) response.getChildAt(i).setBackground(shape(Color.WHITE,Color.rgb(217,225,218)));
-                option.setBackground(shape(Color.rgb(226,239,223),GREEN)); enableCheck();
+                for (int i=0;i<response.getChildCount();i++) response.getChildAt(i).setBackground(shape(BG,Color.rgb(55,70,79)));
+                option.setBackground(shape(Color.rgb(22,57,71),Color.rgb(28,176,246))); enableCheck();
             }); response.addView(option);
         }
     }
@@ -235,7 +237,7 @@ public class MainActivity extends Activity {
         if(answeredCorrect) correct++;
         updateMistake(question.optString("id"),!answeredCorrect); checked=true;
         feedback.setText((answeredCorrect?"✓ Muito bem!":"Vamos aprender juntos.") + "\n" + cap(question.optString("english")) + "\n" + cap(question.optString("portuguese")));
-        feedback.setBackground(shape(answeredCorrect?Color.rgb(223,239,222):Color.rgb(255,237,212),0));
+        feedback.setBackground(shape(answeredCorrect?Color.rgb(32,60,28):Color.rgb(76,43,30),0));
         action.setText("Continuar");
     }
     private void finishLesson() {

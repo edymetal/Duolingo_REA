@@ -29,7 +29,10 @@ New-Item -ItemType Directory -Force $build,(Join-Path $build 'classes'),(Join-Pa
 $previousJavaHome=$env:JAVA_HOME
 try {
     $env:JAVA_HOME=$JavaHome
-    Run (Join-Path $tools 'aapt2.exe') @('compile','--dir',(Join-Path $source 'res'),'-o',(Join-Path $build 'resources.zip'))
+    $python=Get-Command python.exe -ErrorAction SilentlyContinue
+    $pythonPath=if($python) { $python.Source } else { 'D:/Program Files/Python313/python.exe' }
+    Run $pythonPath @((Join-Path $repo 'scripts/prepare_visual_assets.py'))
+    Run (Join-Path $tools 'aapt2.exe') @('compile','--dir',(Join-Path $build 'visual-res'),'-o',(Join-Path $build 'resources.zip'))
     Run (Join-Path $tools 'aapt2.exe') @('link','-o',(Join-Path $build 'resources.apk'),'--manifest',(Join-Path $source 'AndroidManifest.xml'),'-I',$androidJar,(Join-Path $build 'resources.zip'))
     $javaFiles=@(Get-ChildItem (Join-Path $source 'src') -Recurse -Filter '*.java' | ForEach-Object FullName)
     Run (Join-Path $jdkBin 'javac.exe') (@('--release','8','-encoding','UTF-8','-classpath',$androidJar,'-d',(Join-Path $build 'classes'))+$javaFiles)
@@ -41,7 +44,7 @@ try {
     Run $pythonPath @((Join-Path $repo 'scripts/package_offline_app.py'))
     $unsigned=Join-Path $build 'unsigned.apk'
     $aligned=Join-Path $build 'aligned.apk'
-    $signed=Join-Path $dist 'Lingo-Local.apk'
+    $signed=Join-Path $dist 'Lingo-Edy.apk'
     Run (Join-Path $tools 'zipalign.exe') @('-f','-P','16','4',$unsigned,$aligned)
     $key=Join-Path $repo '.tools/development.keystore'
     if(!(Test-Path -LiteralPath $key)) {

@@ -1,7 +1,7 @@
 # Material local: inglês para falantes de português
 
 Uma primeira unidade editorial com 18 frases selecionadas e áudio local está
-disponível no aplicativo independente Lingo Local. Veja
+disponível no aplicativo independente Lingo Edy. Veja
 [o guia](../../docs/LINGO-LOCAL.md). O plano editável é `unit-01-plan.json`;
 os assets finais ficam em `generated/unit-01/`.
 
