@@ -1,0 +1,51 @@
+{
+  "id": "beverages-01",
+  "title": "Bebidas e pedidos",
+  "subtitle": "Peça uma bebida, faça uma oferta e fale de preferências.",
+  "level": "Introdução · curadoria do projeto",
+  "curriculum_origin": "Organização pedagógica própria; não reproduz a unidade oficial do Duolingo.",
+  "lessons": [
+    {
+      "id": "polite-orders",
+      "title": "Faça seu pedido",
+      "description": "Água, café e chá, com gentileza.",
+      "tip": "Please significa por favor. I would like é uma forma educada de dizer que você gostaria de algo. Can I have…? também pode ser usado para fazer um pedido.",
+      "prompts": [
+        "a glass of water, please.",
+        "a cup of coffee, please.",
+        "a bottle of water please.",
+        "i want coffee and water, please.",
+        "i would like a cup of tea.",
+        "can i have a coffee, please?"
+      ]
+    },
+    {
+      "id": "offer-drinks",
+      "title": "Ofereça uma bebida",
+      "description": "Pergunte e receba alguém bem.",
+      "tip": "Would you like…? é uma maneira educada de oferecer algo. What do you want to drink? pergunta o que a pessoa quer beber. A expressão get you pode significar trazer algo para você.",
+      "prompts": [
+        "do you want some water?",
+        "what do you want to drink?",
+        "would you like a drink?",
+        "would you like anything to drink?",
+        "can i get you more coffee?",
+        "what kind of juice would you like?"
+      ]
+    },
+    {
+      "id": "drink-preferences",
+      "title": "Gostos e hábitos",
+      "description": "Conte o que as pessoas bebem.",
+      "tip": "Com he, she e it, drink vira drinks no presente afirmativo. Para negar, use does not ou doesn't e o verbo drink sem s. With significa com; every morning significa toda manhã.",
+      "prompts": [
+        "the girl drinks water.",
+        "they drink tea with milk.",
+        "she wants tea with milk.",
+        "i drink coffee every morning.",
+        "my husband doesn't drink coffee.",
+        "the girl does not want juice."
+      ]
+    }
+  ]
+}

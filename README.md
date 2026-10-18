@@ -1,5 +1,15 @@
 # Duolingo — inspeção e base editável do APK
 
+## Versão independente offline: Lingo Local
+
+Foi iniciada uma implementação Android própria para funcionar sem os
+servidores do Duolingo: **uma unidade, três lições e 18 exercícios com áudio
+local**, correção e progresso salvo no aparelho. APK em `dist/Lingo-Local.apk`.
+Veja [como abrir, editar e compilar](docs/LINGO-LOCAL.md).
+Essa primeira unidade não representa o curso completo do Duolingo.
+
+## Reconstrução do aplicativo original
+
 O APK fornecido foi inventariado com REA e decodificado localmente com Apktool.
 Recursos e bytecode Smali estão em `decoded/`; a reconstrução assinada está em
 `dist/Duolingo-base-editable.apk`. Scripts, relatórios e arquivos de alteração

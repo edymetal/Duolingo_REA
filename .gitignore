@@ -7,3 +7,4 @@
 *.jks
 __pycache__/
 /content/en-pt/generated/
+/android-app/build/

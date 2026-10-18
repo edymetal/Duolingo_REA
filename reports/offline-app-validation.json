@@ -1,0 +1,24 @@
+{
+  "package": "dev.edney.lingolocal",
+  "serial": "emulator-5554",
+  "airplane_mode": true,
+  "lessons_completed": 3,
+  "questions_checked": 18,
+  "passed": true,
+  "mistakes_reviewed": true,
+  "full_flow_apk_sha256": "1ff82190991b5d88eb3ac47c00d0220900ee2f137e631ef0cd7b527650ff62c2",
+  "full_flow_reused": true,
+  "wifi_disabled": true,
+  "audio_service_evidence": [
+    "  AudioPlaybackConfiguration piid:311 deviceIds:[] type:android.media.MediaPlayer u/pid:10224/10113 state:started attr:AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_UNKNOWN flags=0x800(FLAG_MUTE_HAPTIC)  tags= bundle=null sessionId:321 mutedState:none  FormatInfo{isSpatialized=false, channelMask=0x1, sampleRate=22050}",
+    "10-18 20:59:48:613 new player piid:311 uid/pid:10224/10113 package:dev.edney.lingolocal type:android.media.MediaPlayer attr:AudioAttributes: usage=USAGE_UNKNOWN content=CONTENT_TYPE_UNKNOWN flags=0x800(FLAG_MUTE_HAPTIC)  tags= bundle=null session:321",
+    "10-18 20:59:48:865 player piid:311 event:started",
+    "10-18 20:59:49:196 port updated portId:[25] mapped to player piid:311",
+    "10-18 20:59:49:210 player piid:311 format update:FormatInfo{isSpatialized=false, channelMask=0x1, sampleRate=22050}"
+  ],
+  "audio_player_observed": true,
+  "progress_persisted_after_restart": true,
+  "final_apk_sha256": "c89cea5a97da399de6110c7f3b6235ab48788cba4ff1d229ce38d759d4a3b183",
+  "test_progress_reset_after_validation": true,
+  "full_flow_build_difference": "Na compilação final foram ajustadas apenas as mensagens de singular/plural; áudio e persistência foram revalidados após instalar a atualização."
+}

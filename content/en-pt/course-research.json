@@ -4,7 +4,7 @@
     "instruction_language": "pt-BR",
     "selected_by_user": true,
     "delivery_goal": "Independente dos servidores do Duolingo",
-    "implementation_status": "research_only"
+    "implementation_status": "offline_intro_unit_available"
   },
   "curriculum_reference": {
     "source": "https://duolingodata.com/dat/enfpt1005v2.html",
@@ -82,10 +82,19 @@
     "limitations": "Amostra de 2020, não é o currículo completo atual. Traduções aceitas não equivalem a lições distintas."
   },
   "next_content_work": [
-    "Obter o corpus pelo fluxo oficial com formulário preenchido pelo responsável",
-    "Conferir integridade e formato antes de importar",
-    "Classificar frases por objetivo e dificuldade sem inventar origem curricular",
-    "Produzir e revisar conteúdo para lacunas, distinguindo-o do original",
-    "Preparar áudio local e testar correção e progresso offline"
-  ]
+    "Revisar didática, pronúncia sintética e acessibilidade da primeira unidade",
+    "Organizar novas unidades sem atribuir origem curricular não demonstrada",
+    "Ampliar gradualmente o recorte de 18 frases usando o banco de referência",
+    "Avaliar digitação livre e avaliação de fala local em etapa própria"
+  ],
+  "offline_unit": {
+    "id": "beverages-01",
+    "lesson_count": 3,
+    "exercise_count": 18,
+    "bundled_audio_count": 18,
+    "package": "dev.edney.lingolocal",
+    "plan": "content/en-pt/unit-01-plan.json",
+    "guide": "docs/LINGO-LOCAL.md",
+    "curriculum_origin": "Curadoria própria, com frases selecionadas do STAPLE 2020"
+  }
 }

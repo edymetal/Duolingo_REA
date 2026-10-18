@@ -1,5 +1,10 @@
 # Material local: inglês para falantes de português
 
+Uma primeira unidade editorial com 18 frases selecionadas e áudio local está
+disponível no aplicativo independente Lingo Local. Veja
+[o guia](../../docs/LINGO-LOCAL.md). O plano editável é `unit-01-plan.json`;
+os assets finais ficam em `generated/unit-01/`.
+
 O arquivo `generated/staple.en-pt.jsonl` contém o recorte inglês–português
 importado do STAPLE 2020: 5.000 enunciados e 654.625 variantes de tradução.
 Ele foi gerado localmente após o download autorizado pelo fluxo do Harvard
