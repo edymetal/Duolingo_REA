@@ -1,0 +1,18 @@
+<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'unsafe-inline'; connect-src 'self'; img-src 'self' data: blob:">
+<style>html,body{margin:0;width:100%;height:100%;background:transparent;overflow:hidden}canvas{position:absolute;left:50%;top:35%;transform:translate(-50%,-50%);width:140%;height:140%;display:block}</style>
+<canvas id="character"></canvas><script src="rive.js"></script><script>
+rive.RuntimeLoader.setWasmUrl('https://appassets.androidplatform.net/rive.wasm');
+const name=new URL(location.href).searchParams.get('name');
+if(['oscar','lily','zari'].includes(name)) {
+ const player=new rive.Rive({src:name+'.riv',canvas:document.getElementById('character'),autoplay:false,
+  enableRiveAssetCDN:false,layout:new rive.Layout({fit:rive.Fit.Contain,alignment:rive.Alignment.Center}),
+  onLoad:()=>{player.resizeDrawingSurfaceToCanvas();
+    const idle=player.animationNames.find(n=>/^idle_00$/i.test(n));
+    player.play([idle,'darkmode'].filter(n=>player.animationNames.includes(n)));
+    window.lingoFeedback=correct=>{const animation=player.animationNames.find(n=>new RegExp('^'+(correct?'correct':'incorrect')+'_00$','i').test(n));if(animation){player.stop();player.play([animation,'darkmode'].filter(n=>player.animationNames.includes(n)));}};
+    console.log('LingoCharacter ready '+name+' '+JSON.stringify(player.animationNames)+' '+JSON.stringify(player.stateMachineNames));},
+  onLoadError:e=>console.error('LingoCharacter failed '+JSON.stringify(e))});
+ window.addEventListener('resize',()=>player.resizeDrawingSurfaceToCanvas());
+}
+</script>

@@ -15,7 +15,6 @@ import android.widget.*;
 import org.json.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -23,20 +22,16 @@ public class MainActivity extends Activity {
     private final int INK = Color.rgb(241, 247, 250), GREEN = Color.rgb(88, 204, 2);
     private final int MUTED = Color.rgb(147, 167, 176), BG = Color.rgb(19, 31, 36);
     private Typeface regular, bold;
+    private ExerciseScreen exerciseScreen;
+    private OfflineSpeech speech;
     private JSONObject unit;
     private JSONArray lessons;
     private SharedPreferences prefs;
-    private LinearLayout root, content, response;
-    private Button action;
-    private TextView feedback, assembled;
+    private LinearLayout root;
     private MediaPlayer player;
     private ArrayList<JSONObject> questions = new ArrayList<>();
-    private ArrayList<Integer> selectedTokens = new ArrayList<>();
-    private ArrayList<Button> tokenButtons = new ArrayList<>();
-    private String[] tokens;
     private int lessonIndex = -1, step, correct;
     private boolean checked, answeredCorrect, review;
-    private String chosen = "";
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -46,11 +41,14 @@ public class MainActivity extends Activity {
         try {
             unit = new JSONObject(readAsset("unit.json"));
             lessons = unit.getJSONArray("lessons");
+            lessons.put(new JSONObject(readAsset("reference-activities.json")));
             if (state != null && state.getBoolean("inLesson")) {
                 lessonIndex=state.getInt("lessonIndex"); review=state.getBoolean("review");
                 ArrayList<String> savedIds=state.getStringArrayList("sessionIds");
                 if(savedIds==null) throw new IllegalStateException("Sessão sem exercícios");
-                for(String id:savedIds) {
+                ArrayList<String> savedJson=state.getStringArrayList("sessionJson");
+                if(savedJson!=null)for(String json:savedJson)questions.add(new JSONObject(json));
+                else for(String id:savedIds) {
                     for(int l=0;l<lessons.length();l++) {
                         JSONArray entries=lessons.getJSONObject(l).getJSONArray("exercises");
                         for(int i=0;i<entries.length();i++) if(entries.getJSONObject(i).getString("id").equals(id)) questions.add(entries.getJSONObject(i));
@@ -94,7 +92,7 @@ public class MainActivity extends Activity {
     }
     private LinearLayout column() { LinearLayout view = new LinearLayout(this); view.setOrientation(LinearLayout.VERTICAL); return view; }
     private void base() {
-        stopAudio(); root = column(); root.setBackgroundColor(BG); root.setPadding(dp(22), dp(12), dp(22), dp(12)); setContentView(root);
+        stopAudio(); stopSpeech(); if(exerciseScreen!=null){exerciseScreen.dispose();exerciseScreen=null;} root = column(); root.setBackgroundColor(BG); root.setPadding(dp(22), dp(12), dp(22), dp(12)); setContentView(root);
     }
     private LinearLayout scrollContent() {
         ScrollView scroll = new ScrollView(this); scroll.setFillViewport(true);
@@ -114,18 +112,19 @@ public class MainActivity extends Activity {
         String[] titles=new String[lessons.length()]; for(int i=0;i<titles.length;i++) titles[i]=lessons.optJSONObject(i).optString("title");
         root.addView(new LearningPath(this,regular,bold,unit.optString("title"),titles,finished,prefs.getInt("xp",0),prefs.getInt("streak",0),new LearningPath.Actions() {
             public void lesson(int index) { showLessonIntro(index); }
+            public void activities() { showLessonIntro(3); }
             public void guide() {
                 new AlertDialog.Builder(MainActivity.this).setTitle("Guia · Bebidas e pedidos")
-                    .setMessage(unit.optString("subtitle")+"\n\n1. Faça seu pedido\n2. Ofereça uma bebida\n3. Gostos e hábitos\n\nCada lição tem tradução, escuta e montagem de frases. As três estrelas finais permitem repetir as lições. Todos os áudios são locais.")
+                    .setMessage(unit.optString("subtitle")+"\n\n1. Faça seu pedido\n2. Ofereça uma bebida\n3. Gostos e hábitos\n\nCada lição tem tradução, escuta e montagem de frases. A quarta estrela abre a prática Cores e roupas; os dois últimos botões repetem lições. Todos os áudios são locais.\n\nPrática extra: Cores e roupas, com sete formatos de atividade. Abra pelo ícone de prática na barra inferior.")
                     .setPositiveButton("Entendi",null).show();
             }
             public void progress() {
                 StringBuilder message=new StringBuilder(); int done=0;
                 for(int i=0;i<lessons.length();i++) {
                     boolean finished=prefs.getBoolean("done-"+i,false); if(finished)done++;
-                    message.append(lessons.optJSONObject(i).optString("title")).append(finished?" · melhor: "+prefs.getInt("best-"+i,0)+"/6":" · não concluída").append("\n\n");
+                    message.append(lessons.optJSONObject(i).optString("title")).append(finished?" · melhor: "+prefs.getInt("best-"+i,0)+"/"+lessons.optJSONObject(i).optJSONArray("exercises").length():" · não concluída").append("\n\n");
                 }
-                new AlertDialog.Builder(MainActivity.this).setTitle(done+" de 3 lições · "+prefs.getInt("xp",0)+" XP").setMessage(message.toString()).setPositiveButton("Voltar",null).show();
+                new AlertDialog.Builder(MainActivity.this).setTitle(done+" de "+lessons.length()+" lições · "+prefs.getInt("xp",0)+" XP").setMessage(message.toString()).setPositiveButton("Voltar",null).show();
             }
             public void review() {
                 if(mistakes().isEmpty()) new AlertDialog.Builder(MainActivity.this).setTitle("Revisar meus erros · 0").setMessage("Nenhum erro pendente. Continue praticando as lições da trilha.").setPositiveButton("Entendi",null).show();
@@ -136,8 +135,12 @@ public class MainActivity extends Activity {
     }
     private void showAbout() {
         new AlertDialog.Builder(this).setTitle("Conteúdo que funciona sem rede")
-            .setMessage("Esta unidade tem 18 frases do STAPLE 2020, publicadas pelo Duolingo no Harvard Dataverse (V6).\n\nOrganização, explicações e tipos de exercício: curadoria própria do projeto. Não é a unidade original nem o curso completo do Duolingo.\n\nÁudio sintético gerado localmente com Microsoft Zira Desktop; não são as vozes originais.\n\nOrigem: doi:10.7910/DVN/38OJR6\nLicença do conteúdo: CC BY-NC 4.0, com atribuição e uso não comercial.\n\nSem conta e sem permissão de internet. O progresso fica neste aplicativo no aparelho.")
-            .setPositiveButton("Entendi", null).show();
+            .setMessage("As três primeiras lições têm 18 frases do STAPLE 2020, publicadas pelo Duolingo no Harvard Dataverse (V6).\n\nOrganização, explicações e tipos de exercício: curadoria própria do projeto. Não é a unidade original nem o curso completo do Duolingo.\n\nÁudio sintético gerado localmente com Microsoft Zira Desktop; não são as vozes originais.\n\nOrigem: doi:10.7910/DVN/38OJR6\nLicença do conteúdo: CC BY-NC 4.0, com atribuição e uso não comercial.\n\nPrática extra: sete atividades de cores e roupas, organizadas a partir das suas referências.\n\nFala: Vosk com modelo inglês embarcado; compara a transcrição reconhecida. Não é a avaliação de pronúncia do Duolingo. Microfone é solicitado somente ao gravar.\n\nSem conta e sem permissão de internet. O progresso fica neste aplicativo no aparelho.")
+            .setNeutralButton("Licenças",(dialog,which)->showLicenses()).setPositiveButton("Entendi", null).show();
+    }
+    private void showLicenses(){
+        try {new AlertDialog.Builder(this).setTitle("Componentes e licenças").setMessage(readAsset("THIRD-PARTY-NOTICES.txt")+"\n\n"+readAsset("licenses/Apache-2.0.txt")+"\n\n"+readAsset("licenses/Rive-MIT.txt")+"\n\n"+readAsset("licenses/JNA-LICENSE.txt")).setPositiveButton("Voltar",null).show();}
+        catch(IOException ex){Toast.makeText(this,"Não foi possível abrir as licenças.",Toast.LENGTH_LONG).show();}
     }
     private void showLessonIntro(int index) {
         JSONObject lesson = lessons.optJSONObject(index);
@@ -160,85 +163,62 @@ public class MainActivity extends Activity {
         if (questions.isEmpty()) showHome(); else showQuestion();
     }
     private void showQuestion() {
-        base(); chosen=""; checked=false; selectedTokens.clear(); tokenButtons.clear();
-        JSONObject question = questions.get(step); String type = question.optString("type");
-        LinearLayout header = new LinearLayout(this); header.setGravity(Gravity.CENTER_VERTICAL);
-        Button close = button("×", false); close.setContentDescription("Sair da lição");
-        header.addView(close,new LinearLayout.LayoutParams(dp(48),dp(48)));
-        close.setOnClickListener(v -> confirmExit());
-        TextView progress = label("   " + (step+1) + " / " + questions.size() + (review ? "  ·  Revisão" : "  ·  Lição " + (lessonIndex+1)),14,MUTED,true);
-        header.addView(progress); root.addView(header);
-        ProgressBar bar = new ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal); bar.setMax(questions.size()); bar.setProgress(step);
-        LinearLayout.LayoutParams barParams=new LinearLayout.LayoutParams(-1,dp(8)); barParams.setMargins(0,dp(16),0,dp(12)); root.addView(bar,barParams);
-        content=scrollContent();
-        boolean listening = type.equals("listening"); boolean order = type.equals("word_order");
-        content.addView(label(listening ? "Ouça e escolha" : order ? "Monte a frase em inglês" : "Escolha a tradução",25,INK,true));
-        content.addView(label(listening ? "Use o áudio para entender a frase." : order ? "Toque nas palavras na ordem certa." : "Leia em inglês e encontre o sentido.",15,MUTED,false));
-        TextView prompt=label(listening ? "♪" : cap(question.optString(order ? "portuguese" : "english")), listening ? 58 : 24,INK,true);
-        prompt.setPadding(dp(20),dp(22),dp(20),dp(22)); prompt.setBackground(shape(BG,Color.rgb(55,70,79))); content.addView(prompt);
-        Button audio=button(order ? "Ouvir uma dica" : "▶  Ouvir em inglês",false); audio.setOnClickListener(v -> playAudio(question.optString("audio"))); content.addView(audio);
-        response=column(); content.addView(response);
-        if (order) buildWordOrder(question); else buildChoices(question);
-        feedback=label("",15,INK,true); feedback.setPadding(dp(12),dp(10),dp(12),dp(10)); root.addView(feedback);
-        action=button("Verificar",true); action.setEnabled(false); action.setAlpha(.45f); root.addView(action);
-        action.setOnClickListener(v -> {
-            if (!checked) checkAnswer(question,order);
-            else { step++; if (step>=questions.size()) finishLesson(); else showQuestion(); }
+        base(); checked=false;
+        JSONObject source=questions.get(step), q;
+        try { q=new JSONObject(source.toString()); } catch(JSONException ex){throw new IllegalStateException(ex);}
+        String type=q.optString("type");
+        try {
+            if(type.equals("translation")||type.equals("listening")) {
+                q.put("prompt",q.optString("english")).put("answer",q.optString("portuguese"));
+                if(type.equals("translation"))q.put("type","choice");
+                ArrayList<String> choices=new ArrayList<>();choices.add(cap(q.optString("portuguese")));
+                for(int l=0;l<lessons.length()&&choices.size()<3;l++){
+                    JSONArray entries=lessons.optJSONObject(l).optJSONArray("exercises");
+                    for(int i=0;i<entries.length()&&choices.size()<3;i++){
+                        String value=cap(entries.optJSONObject(i).optString("portuguese"));
+                        if(!value.isEmpty()&&!choices.contains(value))choices.add(value);
+                    }
+                }
+                Collections.shuffle(choices,new Random(q.optString("id").hashCode()));q.put("choices",new JSONArray(choices));
+            } else if(type.equals("word_order")) {
+                q.put("prompt",q.optString("portuguese")).put("answer",q.optString("english"));
+                ArrayList<String> words=new ArrayList<>(Arrays.asList(q.optString("english").split("\\s+")));
+                Collections.shuffle(words,new Random(q.optString("id").hashCode()));q.put("tokens",new JSONArray(words));
+            }
+        } catch(JSONException ex){throw new IllegalStateException(ex);}
+        root.setPadding(0,0,0,0);
+        exerciseScreen=new ExerciseScreen(this,regular,bold,q,step,questions.size(),new ExerciseScreen.Actions(){
+            public void exit(){confirmExit();}
+            public void audio(){playAudio(source.optString("audio"));}
+            public void checked(boolean right){checked=true;answeredCorrect=right;if(right)correct++;updateMistake(source.optString("id"),!right);}
+            public void next(){stopSpeech();step++;if(step>=questions.size())finishLesson();else showQuestion();}
+            public void speak(){startSpeech();}
+            public void alternate(){
+                stopSpeech();
+                try {JSONObject fallback=new JSONObject(source.toString());fallback.put("type","choice").put("prompt","Ouça a frase e escolha o significado:").put("answer",source.optString("fallback_answer"));fallback.put("character","oscar");questions.set(step,fallback);showQuestion();playAudio(source.optString("audio"));}
+                catch(JSONException ex){throw new IllegalStateException(ex);}
+            }
+        });
+        root.addView(exerciseScreen,new LinearLayout.LayoutParams(-1,-1));
+    }
+    private void startSpeech(){
+        stopAudio();
+        if(checkSelfPermission(android.Manifest.permission.RECORD_AUDIO)!=android.content.pm.PackageManager.PERMISSION_GRANTED){requestPermissions(new String[]{android.Manifest.permission.RECORD_AUDIO},41);return;}
+        if(speech!=null){speech.finish();return;}
+        speech=new OfflineSpeech(this);
+        speech.start(new OfflineSpeech.Listener(){
+            public void status(String value){if(exerciseScreen!=null)exerciseScreen.speechStatus(value);}
+            public void result(String value){speech=null;if(exerciseScreen!=null)exerciseScreen.speechResult(value);}
+            public void error(String value){speech=null;if(exerciseScreen!=null)exerciseScreen.speechStatus(value);}
         });
     }
-    private void buildChoices(JSONObject question) {
-        ArrayList<String> choices=new ArrayList<>(); choices.add(question.optString("portuguese"));
-        JSONArray pool=lessons.optJSONObject(lessonIndex).optJSONArray("exercises");
-        for (int i=0;i<pool.length() && choices.size()<4;i++) {
-            String alternative=pool.optJSONObject((step+i+1)%pool.length()).optString("portuguese");
-            if (!choices.contains(alternative)) choices.add(alternative);
+    private void stopSpeech(){if(speech!=null){speech.close();speech=null;}}
+    @Override public void onRequestPermissionsResult(int request,String[] permissions,int[] results){
+        super.onRequestPermissionsResult(request,permissions,results);
+        if(request==41&&exerciseScreen!=null){
+            if(results.length>0&&results[0]==android.content.pm.PackageManager.PERMISSION_GRANTED)startSpeech();
+            else exerciseScreen.speechStatus("Microfone não autorizado. Você pode tentar novamente ou escolher não falar agora.");
         }
-        Collections.shuffle(choices,new Random(question.optString("id").hashCode()));
-        for (String value:choices) {
-            Button option=button(cap(value),false); option.setGravity(Gravity.START|Gravity.CENTER_VERTICAL);
-            option.setOnClickListener(v -> {
-                if (checked) return;
-                chosen=value;
-                for (int i=0;i<response.getChildCount();i++) response.getChildAt(i).setBackground(shape(BG,Color.rgb(55,70,79)));
-                option.setBackground(shape(Color.rgb(22,57,71),Color.rgb(28,176,246))); enableCheck();
-            }); response.addView(option);
-        }
-    }
-    private void buildWordOrder(JSONObject question) {
-        tokens=question.optString("english").split("\\s+");
-        assembled=label("Sua frase aparece aqui",20,INK,true); assembled.setMinHeight(dp(72)); response.addView(assembled);
-        ArrayList<Integer> indices=new ArrayList<>(); for(int i=0;i<tokens.length;i++) indices.add(i);
-        Collections.shuffle(indices,new Random(question.optString("id").hashCode()));
-        LinearLayout row=null;
-        for(int position=0;position<indices.size();position++) {
-            if(position%3==0) { row=new LinearLayout(this); response.addView(row); }
-            final int index=indices.get(position); Button token=button(tokens[index],false);
-            LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(0,-2,1); lp.setMargins(dp(3),dp(4),dp(3),dp(4)); row.addView(token,lp); tokenButtons.add(token);
-            token.setOnClickListener(v -> { if(checked) return; selectedTokens.add(index); token.setEnabled(false); token.setAlpha(.35f); updateAssembled(); });
-        }
-        Button undo=button("↶  Desfazer",false); undo.setOnClickListener(v -> {
-            if(checked || selectedTokens.isEmpty()) return; int removed=selectedTokens.remove(selectedTokens.size()-1);
-            for(Button token:tokenButtons) if(token.getTag()!=null && token.getTag().equals(removed)) { token.setEnabled(true); token.setAlpha(1); }
-            updateAssembled();
-        });
-        for(int i=0;i<tokenButtons.size();i++) tokenButtons.get(i).setTag(indices.get(i)); response.addView(undo);
-    }
-    private void updateAssembled() {
-        StringBuilder value=new StringBuilder(); for(int index:selectedTokens) { if(value.length()>0) value.append(' '); value.append(tokens[index]); }
-        chosen=value.toString(); assembled.setText(chosen.isEmpty()?"Sua frase aparece aqui":cap(chosen));
-        boolean complete=selectedTokens.size()==tokens.length; action.setEnabled(complete); action.setAlpha(complete?1f:.45f);
-    }
-    private void enableCheck() { action.setEnabled(true); action.setAlpha(1); }
-    private String normalize(String text) {
-        return Normalizer.normalize(text,Normalizer.Form.NFC).toLowerCase(Locale.ROOT).replaceAll("[\\p{Punct}’]", "").replaceAll("\\s+"," ").trim();
-    }
-    private void checkAnswer(JSONObject question,boolean order) {
-        answeredCorrect=normalize(chosen).equals(normalize(question.optString(order?"english":"portuguese")));
-        if(answeredCorrect) correct++;
-        updateMistake(question.optString("id"),!answeredCorrect); checked=true;
-        feedback.setText((answeredCorrect?"✓ Muito bem!":"Vamos aprender juntos.") + "\n" + cap(question.optString("english")) + "\n" + cap(question.optString("portuguese")));
-        feedback.setBackground(shape(answeredCorrect?Color.rgb(32,60,28):Color.rgb(76,43,30),0));
-        action.setText("Continuar");
     }
     private void finishLesson() {
         if(!review) {
@@ -270,10 +250,12 @@ public class MainActivity extends Activity {
             .setPositiveButton("Voltar",(dialog,which)->showHome()).setNegativeButton("Continuar lição",null).show();
     }
     @Override public void onBackPressed() { if(lessonIndex>=0) confirmExit(); else super.onBackPressed(); }
-    @Override protected void onPause() { super.onPause(); stopAudio(); }
+    @Override protected void onPause() { super.onPause(); stopAudio(); stopSpeech(); }
+    @Override protected void onDestroy(){stopSpeech();if(exerciseScreen!=null)exerciseScreen.dispose();super.onDestroy();}
     @Override protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state); state.putBoolean("inLesson",lessonIndex>=0); state.putInt("lessonIndex",lessonIndex);
         ArrayList<String> savedIds=new ArrayList<>(); for(JSONObject question:questions) savedIds.add(question.optString("id")); state.putStringArrayList("sessionIds",savedIds);
+        ArrayList<String> sessionJson=new ArrayList<>();for(JSONObject question:questions)sessionJson.add(question.toString());state.putStringArrayList("sessionJson",sessionJson);
         state.putInt("step",checked?step+1:step); state.putInt("correct",correct); state.putBoolean("review",review);
     }
 }

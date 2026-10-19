@@ -5,6 +5,12 @@ transformar o material importado em lições utilizáveis offline. O pacote é
 `dev.edney.lingolocal`; ele pode coexistir com o Duolingo e com a reconstrução
 anterior. Nenhum arquivo do aplicativo no celular foi alterado nesta etapa.
 
+**Atualização:** a prática Cores e roupas acrescenta sete atividades, personagens
+animados e fala offline com Vosk. São quatro lições e 25 exercícios no aplicativo.
+Há agora permissão opcional de microfone, solicitada ao gravar, e continua sem
+permissão de internet. Veja a [documentação atual das atividades](ATIVIDADES.md).
+As seções abaixo registram também a implementação e as validações anteriores.
+
 ## Visual Lingo Edy
 
 A tela inicial agora segue a referência fornecida: fundo escuro, faixa azul,
@@ -23,8 +29,9 @@ a licença do conjunto STAPLE não é uma licença para as ilustrações e fonte
 Os contadores mostram somente o progresso local. Os três primeiros botões abrem
 as três lições; os três seguintes permitem repeti-las para praticar. O menu
 inferior abre início, guia, progresso, revisão de erros, prática e informações.
-A personagem estática foi extraída como vetor; suas animações ainda não foram
-integradas. Recursos que só são baixados dos servidores podem faltar no APK.
+A personagem da trilha foi extraída como vetor estático. As atividades novas
+usam animações Rive locais. Recursos que só são baixados dos servidores podem
+faltar no APK.
 
 ![Tela inicial Lingo Edy](../reports/lingo-edy-home.png)
 
@@ -56,15 +63,17 @@ mostra a pontuação e os erros continuam disponíveis para revisar.
 
 ## Independência de rede
 
-O APK não solicita permissões, incluindo a de internet. A unidade e seus
+O APK solicita somente microfone para o exercício de fala, sem permissão de
+internet. A unidade e seus
 áudios estão dentro do pacote. Não há login, API, backend ou chamada aos
 servidores do Duolingo. A geração dos dados e dos WAVs acontece antes da
 compilação; não é necessária no telefone para estudar.
 
 Os 5.000 enunciados importados continuam disponíveis no banco de referência
 local. **Esta versão utiliza apenas os 18 selecionados**, e não inclui o
-acervo de 1.005 unidades do mapa comunitário. Reconhecimento de fala, digitação
-livre, histórias, conversação e demais unidades ainda não foram implementados.
+acervo de 1.005 unidades do mapa comunitário. A prática extra tem sete exercícios
+curados separadamente e reconhecimento de fala. Digitação livre, histórias,
+conversação e demais unidades ainda não foram implementadas.
 
 ## Abrir e compilar
 

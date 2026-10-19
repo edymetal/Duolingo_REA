@@ -32,12 +32,15 @@ try {
     $python=Get-Command python.exe -ErrorAction SilentlyContinue
     $pythonPath=if($python) { $python.Source } else { 'D:/Program Files/Python313/python.exe' }
     Run $pythonPath @((Join-Path $repo 'scripts/prepare_visual_assets.py'))
+    Run $pythonPath @((Join-Path $repo 'scripts/prepare_activity_assets.py'))
     Run (Join-Path $tools 'aapt2.exe') @('compile','--dir',(Join-Path $build 'visual-res'),'-o',(Join-Path $build 'resources.zip'))
     Run (Join-Path $tools 'aapt2.exe') @('link','-o',(Join-Path $build 'resources.apk'),'--manifest',(Join-Path $source 'AndroidManifest.xml'),'-I',$androidJar,(Join-Path $build 'resources.zip'))
     $javaFiles=@(Get-ChildItem (Join-Path $source 'src') -Recurse -Filter '*.java' | ForEach-Object FullName)
-    Run (Join-Path $jdkBin 'javac.exe') (@('--release','8','-encoding','UTF-8','-classpath',$androidJar,'-d',(Join-Path $build 'classes'))+$javaFiles)
+    $dependencies=@((Join-Path $repo '.tools/activity-deps/vosk/classes.jar'),(Join-Path $repo '.tools/activity-deps/jna/classes.jar'))
+    $compileClasspath=(@($androidJar)+$dependencies) -join ';'
+    Run (Join-Path $jdkBin 'javac.exe') (@('--release','8','-encoding','UTF-8','-classpath',$compileClasspath,'-d',(Join-Path $build 'classes'))+$javaFiles)
     Run (Join-Path $jdkBin 'jar.exe') @('--create','--file',(Join-Path $build 'classes.jar'),'-C',(Join-Path $build 'classes'),'.')
-    Run (Join-Path $tools 'd8.bat') @('--lib',$androidJar,'--min-api','26','--output',(Join-Path $build 'dex'),(Join-Path $build 'classes.jar'))
+    Run (Join-Path $tools 'd8.bat') (@('--lib',$androidJar,'--min-api','26','--output',(Join-Path $build 'dex'),(Join-Path $build 'classes.jar'))+$dependencies)
     # O empacotamento usa o Python já presente no ambiente ou explicitamente no PATH.
     $python=Get-Command python.exe -ErrorAction SilentlyContinue
     $pythonPath=if($python) { $python.Source } else { 'D:/Program Files/Python313/python.exe' }

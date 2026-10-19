@@ -39,7 +39,8 @@ class OfflineUnitTests(unittest.TestCase):
     def test_manifest_has_no_network_permission(self):
         manifest = ET.parse(ROOT / 'android-app/AndroidManifest.xml').getroot()
         self.assertNotEqual(manifest.get('package'), 'com.duolingo')
-        self.assertEqual(manifest.findall('uses-permission'), [])
+        permissions = [p.get('{http://schemas.android.com/apk/res/android}name') for p in manifest.findall('uses-permission')]
+        self.assertEqual(permissions, ['android.permission.RECORD_AUDIO'])
 
     @unittest.skipUnless((ROOT / 'dist/Lingo-Edy.apk').exists(), 'Compile o APK primeiro')
     def test_packaged_audio_is_uncompressed_and_complete(self):

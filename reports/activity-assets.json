@@ -1,0 +1,44 @@
+{
+  "characters": [
+    {
+      "source": "decoded/res/raw/oscar_inlesson_v01_02.riv",
+      "sha256": "eee2ae28e66fd47d54d84bf7bb96c4942661c3ed3392f209f31c8fc359c00a2f"
+    },
+    {
+      "source": "decoded/res/raw/lily_inlesson_v02_19.riv",
+      "sha256": "269351fc148483b6391a5e8cd42bb12434195c8314de2e90106ec92e1f8c85df"
+    },
+    {
+      "source": "decoded/res/raw/zari_inlesson_v01_04.riv",
+      "sha256": "238a21c4e391da91efadacfcdeb3ebfcfbeee8bcfb15056fc4ae5adb7a161245"
+    }
+  ],
+  "runtimes": [
+    {
+      "file": "vosk.aar",
+      "url": "https://repo.maven.apache.org/maven2/com/alphacephei/vosk-android/0.3.47/vosk-android-0.3.47.aar",
+      "sha256": "e3b82bb877753569f5e5f007807e4bc6165c34ba04e772d1df93552af0d27ffa"
+    },
+    {
+      "file": "jna.aar",
+      "url": "https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.13.0/jna-5.13.0.aar",
+      "sha256": "3a03daf5a7212201c3a9b44f734dfc9babb3addcb5cbfa639f9f535e887925c0"
+    },
+    {
+      "file": "model.zip",
+      "url": "https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip",
+      "sha256": "30f26242c4eb449f948e42cb302dd7a686cb29a3423a8367f99ff41780942498"
+    },
+    {
+      "file": "rive.js",
+      "url": "https://unpkg.com/@rive-app/canvas@2.31.2/rive.js",
+      "sha256": "653feae57e7881388b67db5d6903ff409b977d3088da1f2cb4ddb0810e888d93"
+    },
+    {
+      "file": "rive.wasm",
+      "url": "https://unpkg.com/@rive-app/canvas@2.31.2/rive.wasm",
+      "sha256": "0e6ffa77ac9149d069ba230d4632f61bfdd23ba54628482c9d82b36ac4ae1552"
+    }
+  ],
+  "illustrations": "Vetores locais em IllustrationView.java, desenhados a partir das referências"
+}

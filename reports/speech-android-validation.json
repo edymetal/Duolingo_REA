@@ -1,0 +1,12 @@
+﻿{
+    "apk_sha256":  "3089e886318a248292d926114e22a894550639eec2567287cdb0ef7731ee12c1",
+    "airplane_mode":  true,
+    "scope":  "Motor Android real com WAV local: frase positiva, Ã¡udio diferente e silÃªncio. NÃ£o mede sotaques ou qualidade fonÃ©tica humana.",
+    "output":  [
+                   "INSTRUMENTATION_RESULT: different_audio=read",
+                   "INSTRUMENTATION_RESULT: recognition=that green shirt is nice",
+                   "INSTRUMENTATION_RESULT: success=true",
+                   "INSTRUMENTATION_CODE: -1"
+               ],
+    "passed":  true
+}

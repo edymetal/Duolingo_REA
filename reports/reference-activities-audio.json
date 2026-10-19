@@ -1,0 +1,52 @@
+﻿{
+    "engine":  "Windows System.Speech",
+    "voice":  "Microsoft Zira Desktop",
+    "culture":  "en-US",
+    "rate":  -2,
+    "sample_rate":  22050,
+    "network_service_used":  false,
+    "files":  [
+                  {
+                      "id":  "reference-red",
+                      "file":  "audio/prompt_b1f51a511f1da0cd.wav",
+                      "sha256":  "d123a4cf5dad7767aeee6f4ae4c8a6d2ed6602fbeb54e2907f64d1565bd36320",
+                      "bytes":  66168
+                  },
+                  {
+                      "id":  "reference-want",
+                      "file":  "audio/prompt_f84ed15763de47e0.wav",
+                      "sha256":  "e23dd60aaf994ab4d5d49a5376199b0001406d64fe6af748a14058d4ddedad1f",
+                      "bytes":  125252
+                  },
+                  {
+                      "id":  "reference-speak",
+                      "file":  "audio/prompt_5ce27232c0b735e7.wav",
+                      "sha256":  "937b7b5e49317c63a293ff5c2e5ac38c0e4d281d9021d485467bf9905ab30030",
+                      "bytes":  123050
+                  },
+                  {
+                      "id":  "reference-hat",
+                      "file":  "audio/prompt_bffb4d1f33aadfd7.wav",
+                      "sha256":  "4313a5c64d4c41629b7fc571f1916086f421038492ac3656ef60c8898f53b5b5",
+                      "bytes":  103206
+                  },
+                  {
+                      "id":  "reference-green",
+                      "file":  "audio/prompt_ba4788b226aa8dc2.wav",
+                      "sha256":  "e32a6f24675edccef41f55bd41618aca00a2228c3fce33d15365e2389cfee4a8",
+                      "bytes":  73886
+                  },
+                  {
+                      "id":  "reference-skirt",
+                      "file":  "audio/prompt_4a2f16af4ca3e005.wav",
+                      "sha256":  "b95693c8404f6e89ea20684b0fa1d222cae397c9060475e470cf265f08317e7b",
+                      "bytes":  111138
+                  },
+                  {
+                      "id":  "reference-pairs",
+                      "file":  "audio/prompt_73b9b70a14db01e4.wav",
+                      "sha256":  "f265034af7b5f15b39a0cbdadbb277fe7787f86d729b920c9b244fb1218e3248",
+                      "bytes":  244754
+                  }
+              ]
+}

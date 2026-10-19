@@ -101,7 +101,7 @@ def main(adb, serial, resume_final_checks=False):
         report['mistakes_reviewed'] = True
         # Reprodução de WAV empacotado, com o mesmo modo avião do teste.
         tap(unit['lessons'][0]['title']); tap('Começar', exact=True)
-        tree = state(); click_node(find(tree, 'Ouvir em inglês'))
+        tree = state(); click_node(find(tree, 'Ouvir: '+unit['lessons'][0]['exercises'][0]['english']))
         pid = run('shell', 'pidof', PACKAGE).decode().strip()
         playback_lines = []
         for attempt in range(12):
@@ -120,7 +120,7 @@ def main(adb, serial, resume_final_checks=False):
         run('shell', 'am', 'force-stop', PACKAGE)
         run('shell', 'am', 'start', '-W', '-n', PACKAGE+'/.MainActivity')
         tap('Meu progresso', exact=True)
-        home = text(state()); assert '3 de 3 lições' in home and '45 XP' in home and 'melhor: 5/6' in home
+        home = text(state()); assert '3 de 4 lições' in home and '45 XP' in home and 'melhor: 5/6' in home
         tap('Voltar', exact=True)
         report['progress_persisted_after_restart'] = True
         screenshot('offline-app-progress.png')

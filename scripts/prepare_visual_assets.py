@@ -9,7 +9,7 @@ from xml.etree import ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 ICONS = ['bea_sitting', 'course_flag_en', 'home_active', 'icon_practice',
          'more_active', 'leagues_active', 'heart_active', 'chest_closed', 'guidebook_white',
-         'level_star', 'gem', 'friends_streak_flame', 'contacts_book']
+         'level_star', 'gem', 'friends_streak_flame', 'contacts_book', 'microphone', 'speaker_blue']
 
 
 def prepare():

@@ -1,0 +1,16 @@
+{
+  "id": "reference-colors-clothes",
+  "title": "Cores e roupas",
+  "description": "As sete atividades das referências",
+  "tip": "Pratique tradução, lacunas, fala, imagens, montagem de frases e pares. O reconhecimento de fala acontece no aparelho. Você pode trocar a fala por uma atividade de escuta quando não puder usar o microfone.",
+  "source": "Curadoria local a partir das telas fornecidas pelo usuário; não integra o corpus STAPLE.",
+  "exercises": [
+    {"id":"reference-red","type":"choice","primary_action":"CONTINUAR","character":"oscar","prompt":"vermelho","english":"red","answer":"red","choices":["store","pet","red"]},
+    {"id":"reference-want","type":"cloze","primary_action":"CONTINUAR","character":"lily","prompt":"I ___ three white shirts.","english":"I want three white shirts.","answer":"want","choices":["want","understand","speak"]},
+    {"id":"reference-speak","type":"speaking","character":"oscar","prompt":"That green shirt is nice.","english":"That green shirt is nice.","answer":"That green shirt is nice.","choices":["Aquela camisa verde é bonita.","Aquela saia vermelha é bonita.","Eu quero três camisas brancas."],"fallback_answer":"Aquela camisa verde é bonita."},
+    {"id":"reference-hat","type":"image_cloze","image":"hat","prompt":"I want a red ___.","english":"I want a red hat.","answer":"hat","choices":["hat","chef","park","street"]},
+    {"id":"reference-green","type":"image_choice","prompt":"green","english":"green","answer":"verde","choices":["branco","bolsa","hindi","verde"],"images":["white","bag","hindi","green"]},
+    {"id":"reference-skirt","type":"translate_bank","character":"zari","prompt":"How much is this skirt?","english":"How much is this skirt?","answer":"Quanto custa esta saia","accepted":["Quanto custa esta saia","Quanto custa esta saia?"],"tokens":["Ah","cachecol","custa","de","esta","muito","Quanto","saia"]},
+    {"id":"reference-pairs","type":"pairs","prompt":"","english":"like, sunny, need, want, skirt","answer":"all_pairs","pairs":[["gostar de","like"],["está ensolarado","it's sunny"],["precisar","need"],["querer","want"],["saia","skirt"]]}
+  ]
+}

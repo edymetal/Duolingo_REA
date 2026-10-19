@@ -57,7 +57,7 @@ def main(final_checks=False):
             tap(lesson['title']); assert lesson['tip'] in text(); tap('Voltar')
         if not final_checks:
             tap('Guia da unidade'); assert 'Todos os áudios são locais.' in text(); tap('Entendi')
-            tap('Meu progresso'); assert 'de 3 lições' in text(); tap('Voltar')
+            tap('Meu progresso'); assert 'de 4 lições' in text(); tap('Voltar')
             tap('Sobre o Lingo Edy'); assert 'STAPLE 2020' in text(); tap('Entendi')
             tap('Revisar meus erros')
             if 'Nenhum erro pendente.' in text():
@@ -65,7 +65,7 @@ def main(final_checks=False):
             else:
                 run('shell', 'am', 'force-stop', PACKAGE); run('shell', 'am', 'start', '-W', '-n', PACKAGE+'/.MainActivity')
         tap(unit['lessons'][0]['title']); tap('Começar')
-        tap('▶  Ouvir em inglês')
+        tap('Ouvir: '+unit['lessons'][0]['exercises'][0]['english'])
         pid = run('shell', 'pidof', PACKAGE).decode().strip()
         evidence = []
         for attempt in range(12):

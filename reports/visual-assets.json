@@ -54,6 +54,14 @@
       "sha256": "cbb94fe3ec00366ec85f154877261d0f43c74bb0e68169d08b3afd0d7d8729b2"
     },
     {
+      "source": "decoded/res/drawable/microphone.xml",
+      "sha256": "7fbcebc91351d2d6c9ce8bd075544b476b54841e97076e6e72a11b6c07c6770c"
+    },
+    {
+      "source": "decoded/res/drawable/speaker_blue.xml",
+      "sha256": "f7d3b01d6aedef1b65c9dd8784afe229de756f3b1d28dc779079d947333664c8"
+    },
+    {
       "source": "decoded/res/font/din_next_for_duolingo.otf",
       "sha256": "e3a78e331410bf8c40325dd8215fcd3f890e78f0ec955a923098bf032f510a1e"
     },

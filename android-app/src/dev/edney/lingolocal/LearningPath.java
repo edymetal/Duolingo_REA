@@ -10,7 +10,7 @@ import android.widget.*;
 
 /** Trilha nativa: recursos vetoriais do APK de referência, progresso local. */
 final class LearningPath extends FrameLayout {
-    interface Actions { void lesson(int index); void guide(); void progress(); void review(); void about(); }
+    interface Actions { void lesson(int index); void activities(); void guide(); void progress(); void review(); void about(); }
     private final Actions actions;
     private final Typeface regular, bold;
     private final int blue = Color.rgb(28,176,246), muted = Color.rgb(147,167,176);
@@ -25,7 +25,7 @@ final class LearningPath extends FrameLayout {
         int completed=0; for(boolean done:finished) if(done)completed++;
         LinearLayout stats=new LinearLayout(context); stats.setGravity(Gravity.CENTER_VERTICAL); stats.setPadding(d(20),d(8),d(20),d(14));
         stats.addView(icon("course_flag_en",34,28));
-        TextView count=text("  "+completed+"/3",18,Color.WHITE,true); stats.addView(count,new LinearLayout.LayoutParams(0,-2,1));
+        TextView count=text("  "+completed+"/"+titles.length,18,Color.WHITE,true); stats.addView(count,new LinearLayout.LayoutParams(0,-2,1));
         stats.addView(icon("friends_streak_flame",26,30));
         TextView days=text(" "+streak,18,Color.rgb(255,75,75),true); days.setContentDescription(streak+" dias de sequência"); stats.addView(days,new LinearLayout.LayoutParams(0,-2,1));
         stats.addView(icon("gem",28,30)); stats.addView(text(" "+xp+" XP",18,blue,true)); page.addView(stats);
@@ -52,14 +52,14 @@ final class LearningPath extends FrameLayout {
         };
         journey.addView(map,new LinearLayout.LayoutParams(-1,d(580)));
         for(int i=0;i<6;i++) {
-            final int lesson=i%3; final boolean practice=i>=3;
+            final int lesson=i==3?3:i%3; final boolean practice=i>=4;
             View node=new LessonNode(context,i%3,finished[lesson]);
             node.setContentDescription((practice?"Praticar: ":"")+titles[lesson]); node.setFocusable(true);
             node.setOnClickListener(v->actions.lesson(lesson)); map.addView(node,new FrameLayout.LayoutParams(d(76),d(74)));
         }
         ImageView character=icon("bea_sitting",152,223); character.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO); map.addView(character,new FrameLayout.LayoutParams(d(152),d(223)));
         ImageView chest=icon("chest_closed",54,58); chest.setContentDescription("Meu progresso"); chest.setOnClickListener(v->actions.progress()); map.addView(chest,new FrameLayout.LayoutParams(d(54),d(58)));
-        TextView hint=text("3 lições · 18 exercícios\nToque em uma estrela para começar.\nOs três últimos botões repetem as lições para praticar.",14,muted,false); hint.setGravity(Gravity.CENTER); hint.setPadding(d(22),0,d(22),d(22)); journey.addView(hint);
+        TextView hint=text("4 lições · 25 exercícios\nToque em uma estrela para começar.\nCores e roupas também está no botão de prática.",14,muted,false); hint.setGravity(Gravity.CENTER); hint.setPadding(d(22),0,d(22),d(22)); journey.addView(hint);
         View divider=new View(context); divider.setBackgroundColor(Color.rgb(55,70,79)); page.addView(divider,new LinearLayout.LayoutParams(-1,d(2)));
         LinearLayout nav=new LinearLayout(context); nav.setGravity(Gravity.CENTER); nav.setPadding(d(10),d(10),d(10),d(10));
         String[] icons={"home_active","chest_closed","leagues_active","heart_active","icon_practice","more_active"};
@@ -68,7 +68,7 @@ final class LearningPath extends FrameLayout {
             final int n=i; FrameLayout cell=new FrameLayout(context); nav.addView(cell,new LinearLayout.LayoutParams(0,d(48),1));
             ImageView image=icon(icons[i],32,32); FrameLayout.LayoutParams p=new FrameLayout.LayoutParams(d(34),d(34),Gravity.CENTER); cell.addView(image,p); cell.setContentDescription(names[i]); cell.setFocusable(true);
             if(i==0) { GradientDrawable selected=new GradientDrawable(); selected.setColor(Color.rgb(25,48,59)); selected.setCornerRadius(d(12)); selected.setStroke(d(2),Color.rgb(63,133,167)); cell.setBackground(selected); }
-            cell.setOnClickListener(v->{ if(n==0)scroll.smoothScrollTo(0,0); else if(n==1)actions.guide(); else if(n==2)actions.progress(); else if(n==3)actions.review(); else if(n==4)actions.lesson(0); else actions.about(); });
+            cell.setOnClickListener(v->{ if(n==0)scroll.smoothScrollTo(0,0); else if(n==1)actions.guide(); else if(n==2)actions.progress(); else if(n==3)actions.review(); else if(n==4)actions.activities(); else actions.about(); });
         }
         page.addView(nav);
     }

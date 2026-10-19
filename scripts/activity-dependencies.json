@@ -1,0 +1,27 @@
+[
+  {
+    "file": "vosk.aar",
+    "url": "https://repo.maven.apache.org/maven2/com/alphacephei/vosk-android/0.3.47/vosk-android-0.3.47.aar",
+    "sha256": "e3b82bb877753569f5e5f007807e4bc6165c34ba04e772d1df93552af0d27ffa"
+  },
+  {
+    "file": "jna.aar",
+    "url": "https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.13.0/jna-5.13.0.aar",
+    "sha256": "3a03daf5a7212201c3a9b44f734dfc9babb3addcb5cbfa639f9f535e887925c0"
+  },
+  {
+    "file": "model.zip",
+    "url": "https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip",
+    "sha256": "30f26242c4eb449f948e42cb302dd7a686cb29a3423a8367f99ff41780942498"
+  },
+  {
+    "file": "rive.js",
+    "url": "https://unpkg.com/@rive-app/canvas@2.31.2/rive.js",
+    "sha256": "653feae57e7881388b67db5d6903ff409b977d3088da1f2cb4ddb0810e888d93"
+  },
+  {
+    "file": "rive.wasm",
+    "url": "https://unpkg.com/@rive-app/canvas@2.31.2/rive.wasm",
+    "sha256": "0e6ffa77ac9149d069ba230d4632f61bfdd23ba54628482c9d82b36ac4ae1552"
+  }
+]

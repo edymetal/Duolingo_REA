@@ -7,8 +7,11 @@ servidores do Duolingo: **uma unidade, três lições e 18 exercícios com áudi
 local**, correção e progresso salvo no aparelho. APK em `dist/Lingo-Edy.apk`.
 Veja [como abrir, editar e compilar](docs/LINGO-LOCAL.md).
 Essa primeira unidade não representa o curso completo do Duolingo.
+Também há a prática **Cores e roupas**, com os sete formatos das telas de
+referência, personagens animados e reconhecimento de fala offline embarcado.
+São **25 exercícios em quatro lições**. [Atividades e testes](docs/ATIVIDADES.md).
 O visual foi aproximado da referência com tema escuro, trilha azul e recursos
-gráficos extraídos do APK local. [Ver tela atual](reports/lingo-edy-home.png).
+gráficos extraídos do APK local. [Ver tela atual](reports/activity-home.png).
 
 ## Reconstrução do aplicativo original
 
